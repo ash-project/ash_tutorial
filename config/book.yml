@@ -1,0 +1,11 @@
+---
+slug: ash_tutorial
+filename: ash_tutorial
+title: Title of the Book
+subtitle: Change me
+description: Change me.
+author: Author Name
+copyright: 2020
+uuid: 4c8dfcbe-bed3-4550-9f0f-0ca46bfa19ff
+pdf_preview_page_range: 1..30
+epub_mobi_preview_chapter_range: 0..1
