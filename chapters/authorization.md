@@ -4,10 +4,10 @@
 ## Intro
 \label{sec:intro}
 
-## Ash Role Based Authorization
-\label{sec:ash_role_based_authorization}
-
 ## Ash Policy Access
+\label{sec:ash_policy_access}
+
+## Role Based Authorization with Ash Policy Access
 \label{sec:ash_policy_access}
 
 ## OPA
