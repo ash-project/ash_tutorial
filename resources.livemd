@@ -1,0 +1,85 @@
+# Resources
+
+```elixir
+Mix.install([:ash])
+```
+
+## Create a Profile Resource
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="actions.livemd">Actions</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+<!-- livebook:{"break_markdown":true} -->
+
+### In this tutorial, you will create a simple profile resource with a name attribute
+
+First define the Tutorial.Profile module as a **Resource** with the `use Ash.Resource` macro.
+
+Next let's add some attributes, this is done in an attributes block inside the module
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+attributes do
+
+end
+```
+
+For our first attribute, let's define a primary key `uuid_primary_key :id` inside this `attributes` block.
+
+And also define a name by adding `attribute :name, :string`
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  defmodule Tutorial.Profile do
+    use Ash.Resource
+
+    attributes do
+      uuid_primary_key :id
+      attribute :name, :string
+    end
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution:
+
+```elixir
+defmodule Tutorial.Profile do
+end
+```
+
+## Changesets
+
+If everything went well, we can now create a changeset for our newly created resource.
+
+Changesets are used to create and update data in Ash. But without a data layer, we won't be able to persist it. This will be shown in a later tutorial.
+
+```elixir
+Tutorial.Profile
+|> Ash.Changeset.new(%{name: "My Name"})
+```
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="actions.livemd">Actions</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>

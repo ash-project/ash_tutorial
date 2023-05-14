@@ -1,0 +1,105 @@
+# Actions
+
+```elixir
+Mix.install([:ash])
+```
+
+## Create an Action
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="resources.livemd">Resources</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+<!-- livebook:{"break_markdown":true} -->
+
+### In this tutorial, you will create a resource with a 'create' action
+
+First let's add the action block
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+actions do
+
+end
+```
+
+Inside this action block we can define any type of action we can think of, including all **CRUD** actions.
+
+For now let's just add a default `:create` action by adding `defaults [:create]`
+
+**You've now built your first action.**
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  defmodule Tutorial.Profile do
+    use Ash.Resource
+
+    actions do
+      defaults [:create]
+    end
+
+    attributes do
+      uuid_primary_key :id
+      attribute :name, :string
+    end
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution:
+
+```elixir
+defmodule Tutorial.Profile do
+  use Ash.Resource
+
+  # <--- Create your action here
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:name, :string)
+  end
+end
+```
+
+### Changeset
+
+<!-- livebook:{"break_markdown":true} -->
+
+We can now call `for_create\3` to create a changeset.
+
+```elixir
+Tutorial.Profile
+|> Ash.Changeset.for_create(:create, %{name: "My Name"})
+```
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="./resources.livemd">Resources</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="./overview.livemd">Home</a>
+</div>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="./api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
