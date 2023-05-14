@@ -1,60 +1,38 @@
-# API
+# Data Persistence
 
 ```elixir
 Mix.install([:ash])
 ```
 
-## Create an API
+## Add Data Persistence with ETS
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
-<a class="flex ml-2" style="color: #61758a;" href="actions.livemd">Actions</a>
+<a class="flex ml-2" style="color: #61758a;" href="api.livemd">API</a>
 </div>
 <div class="flex">
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="data_persistence.livemd">Data Persistence</a>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
 
-### In this tutorial you're will create a registry and an API
+### In this tutorial you will add data persistence to the Profile resource
 
-* A **Registry** is a collecion of Resources
-* An **API** is a way for you to interact with your resources
-
-Api's allow you to interact with your defined resources.
-
-#### Registry
-
-Add an entries block
+Add the ETS data layer `data_layer: Ash.DataLayer.Ets` in the Profile resource like so:
 
 <!-- livebook:{"force_markdown":true} -->
 
 ```elixir
-entries do
-
-end
+ use Ash.Resource,
+      data_layer: Ash.DataLayer.Ets
 ```
 
-Then add the entry `entry Tutorial.Profile` inside the block
-
-#### API
-
-Add a resources block
-
-<!-- livebook:{"force_markdown":true} -->
-
-```elixir
-resources do
-
-end
-```
-
-Then add the registry we just created: `registry Tutorial.Registry`
+A more common example of data persistence is Postgres.
 
 <details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
@@ -62,10 +40,11 @@ Then add the registry we just created: `registry Tutorial.Registry`
 
   ```elixir
   defmodule Tutorial.Profile do
-    use Ash.Resource
+    use Ash.Resource,
+      data_layer: Ash.DataLayer.Ets
 
     actions do
-      defaults [:create]
+      defaults [:create, :read]
     end
 
     attributes do
@@ -109,43 +88,19 @@ defmodule Tutorial.Profile do
     attribute(:name, :string)
   end
 end
-
-defmodule Tutorial.Registry do
-  use Ash.Registry
-
-  # <--- Create your entries here
-end
-
-defmodule Tutorial do
-  use Ash.Api
-
-  # <--- Create your resources here
-end
-```
-
-### Creating a Profile record
-
-<!-- livebook:{"break_markdown":true} -->
-
-We can now call `create!\1` to create a Profile.
-
-```elixir
-Tutorial.Profile
-|> Ash.Changeset.for_create(:create, %{name: "My Name"})
-|> Tutorial.create!()
 ```
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
-<a class="flex ml-2" style="color: #61758a;" href="actions.livemd">Actions</a>
+<a class="flex ml-2" style="color: #61758a;" href="api.livemd">API</a>
 </div>
 <div class="flex">
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="data_persistence.livemd">Data Persistence</a>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
