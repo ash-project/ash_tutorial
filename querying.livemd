@@ -189,17 +189,21 @@ Put the result into the `joe` variable. `read!/1` returns a list, so make sure t
 
 ```
 
-We'll use the `joe` variable in the next sections.
+You'll use the `joe` variable in the next sections.
 
 ## Updating
 
 Now change `Joe Armstrong`'s name by `Neil Armstrong`.
 
-You can do this by providing the `Ash.Changeset.for_update/3` with `joe`, the `:update` atom and a map of the values we want to change, in this case `%{name: "Neil Armstrong"}`
+You can do this by providing the `Ash.Changeset.for_update/3` with:
+
+* the resource you want to change, in this case `joe`
+* the `:update` atom
+* a map of the values you want to change, in this case `%{name: "Neil Armstrong"}`
 
 Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
 
-*Again, using a pipeline might be a good idea.*
+*Hint: using a pipeline might be a good idea.*
 
 <details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold"></i>Show Solution</summary>

@@ -64,9 +64,9 @@ end
 
 ## Changesets
 
-If everything went well, we can now create a changeset for our newly created resource.
+If everything went well, you can now create a changeset for our newly created resource.
 
-Changesets are used to create and update data in Ash. But without a data layer, we won't be able to persist it. This will be shown in a later tutorial.
+Changesets are used to **create** and **update** data in Ash. Note that without a data layer, you won't be able to persist creations and changes. This will be shown in a later tutorial.
 
 ```elixir
 Tutorial.Profile

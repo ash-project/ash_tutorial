@@ -35,7 +35,7 @@ actions do
 end
 ```
 
-Inside this action block we can define any type of action we can think of, including all **CRUD** actions.
+Inside this action block you can define any type of actiondsdsaa can think of, including all **CRUD** actions.
 
 For now let's just add a default `:create` action by adding `defaults [:create]`
 
@@ -82,7 +82,7 @@ end
 
 <!-- livebook:{"break_markdown":true} -->
 
-We can now call `for_create/3` to create a changeset.
+You can now call `for_create/3` to create a changeset.
 
 ```elixir
 Tutorial.Profile

@@ -21,16 +21,14 @@ Mix.install([:ash])
 </div>
 </div>
 
-### In this tutorial you're will create a registry and an API
+### In this tutorial you're will create a Registry and an API
 
-* A **Registry** is a collecion of Resources
-* An **API** is a way for you to interact with your resources
-
-Api's allow you to interact with your defined resources.
+* A **Registry** is a collecion of Resources, it's used to reduce improve compile times and reduce compile time dependencies.
+* An **API** is a way for you to interact with your resources.
 
 #### Registry
 
-Add an entries block
+Add an entries block to `Tutorial.Registry`.
 
 <!-- livebook:{"force_markdown":true} -->
 
@@ -40,11 +38,11 @@ entries do
 end
 ```
 
-Then add the entry `entry Tutorial.Profile` inside the block
+Then add the entry `entry Tutorial.Profile` inside the block.
 
 #### API
 
-Add a resources block
+Add a resources block to the `Tutorial` module.
 
 <!-- livebook:{"force_markdown":true} -->
 
@@ -54,7 +52,7 @@ resources do
 end
 ```
 
-Then add the registry we just created: `registry Tutorial.Registry`
+Then add the registry you just created: `registry Tutorial.Registry`
 
 <details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
@@ -94,7 +92,7 @@ Then add the registry we just created: `registry Tutorial.Registry`
   </div>
 </details>
 
-### Enter your solution:
+### Enter your solution
 
 ```elixir
 defmodule Tutorial.Profile do
@@ -127,7 +125,7 @@ end
 
 <!-- livebook:{"break_markdown":true} -->
 
-We can now call `create!/1` to create a Profile.
+You can now call `create!/1` to create a Profile.
 
 ```elixir
 Tutorial.Profile
