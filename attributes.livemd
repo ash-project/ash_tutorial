@@ -181,7 +181,7 @@ end
 
 ## Creating a Ticket
 
-Try creating a `Ticket` without any attributes.
+Create a `Ticket` without any attributes.
 
 Remember, when creating a resource use a changeset (`Ash.Changeset.for_create/3`), which gets passed to `Tutorial.Support.create!/1`.
 

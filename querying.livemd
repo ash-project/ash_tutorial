@@ -112,7 +112,7 @@ You can create a `Profile` by:
 * first by creating a Changeset with `Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})`,
 * and then giving the changeset to `Tutorial.create!()`.
 
-*Hint: use a pipeline*
+*Hint: Use a pipeline*
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -135,7 +135,7 @@ You can create a `Profile` by:
 
 ## Reading
 
-Now, let's read all the generated Profiles.
+Now, read all the generated Profiles.
 
 Call `Tutorial.read!/1` with the `Tutorial.Profile` module.
 
@@ -193,7 +193,7 @@ You'll use the `joe` variable in the next sections.
 
 ## Updating
 
-Now change `Joe Armstrong`'s name by `Neil Armstrong`.
+Now change `Joe Armstrong`'s name to `Neil Armstrong`.
 
 You can do this by providing the `Ash.Changeset.for_update/3` with:
 
@@ -203,7 +203,7 @@ You can do this by providing the `Ash.Changeset.for_update/3` with:
 
 Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
 
-*Hint: using a pipeline might be a good idea.*
+*Hint: Using a pipeline might be a good idea.*
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -228,7 +228,7 @@ Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
 
 Finally, remove `joe` from the database.
 
-Do this using the `Tutorial.destroy!/1` method.
+Do this using the `Tutorial.destroy!/1` function.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>

@@ -57,7 +57,7 @@ A more common data persistence layer in production is [Postgres](https://github.
   </div>
 </details>
 
-### Enter your solution:
+### Enter your solution
 
 ```elixir
 defmodule Tutorial.Profile do

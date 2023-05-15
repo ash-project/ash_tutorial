@@ -125,13 +125,17 @@ end
 
 <!-- livebook:{"break_markdown":true} -->
 
-You can now call `create!/1` to create a Profile.
+If everything is configured correctly, you can now call `create!/1` to create a Profile.
 
 ```elixir
 Tutorial.Profile
 |> Ash.Changeset.for_create(:create, %{name: "My Name"})
 |> Tutorial.create!()
 ```
+
+Note that this Profile is not being persisted yet to any database. For that we need to set up a data layer.
+
+<!-- livebook:{"break_markdown":true} -->
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">

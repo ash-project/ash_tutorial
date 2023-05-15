@@ -21,9 +21,9 @@ Mix.install([:ash])
 
 ### In this tutorial, you will create a simple profile resource with a name attribute
 
-First define the Tutorial.Profile module as a **Resource** with the `use Ash.Resource` macro.
+First define the `Tutorial.Profile` module as a **Resource** with the `use Ash.Resource` macro.
 
-Next let's add some attributes, this is done in an attributes block inside the module
+Next let's add some attributes, this is done in an **attributes** block inside the module:
 
 <!-- livebook:{"force_markdown":true} -->
 
@@ -33,9 +33,9 @@ attributes do
 end
 ```
 
-For our first attribute, let's define a primary key `uuid_primary_key :id` inside this `attributes` block.
+For your first attribute, define a primary key `uuid_primary_key :id` inside this `attributes` block.
 
-And also define a name by adding `attribute :name, :string`
+Also define a name by adding `attribute :name, :string`
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -55,7 +55,7 @@ And also define a name by adding `attribute :name, :string`
   </div>
 </details>
 
-### Enter your solution:
+### Enter your solution
 
 ```elixir
 defmodule Tutorial.Profile do
@@ -64,7 +64,7 @@ end
 
 ## Changesets
 
-If everything went well, you can now create a changeset for our newly created resource.
+If everything went well, you can now create a changeset for your newly created resource.
 
 Changesets are used to **create** and **update** data in Ash. Note that without a data layer, you won't be able to persist creations and changes. This will be shown in a later tutorial.
 
