@@ -1,0 +1,267 @@
+# Querying
+
+```elixir
+Mix.install([:ash])
+```
+
+## Querying
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="data_persistence.livemd">Data Persistence</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+### In this tutorial you will do basic Query operations
+
+In previous tutorials you added all necessary components to start doing CRUD operations on your resource.
+
+But first you need to enable all basic CRUD operations. 
+Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  defmodule Tutorial.Profile do
+    use Ash.Resource,
+      data_layer: Ash.DataLayer.Ets
+
+    actions do
+      defaults [:create, :read, :update, :destroy]
+    end
+
+    attributes do
+      uuid_primary_key :id
+      attribute :name, :string
+    end
+  end
+
+  defmodule Tutorial.Registry do
+    use Ash.Registry
+
+    entries do
+      entry Tutorial.Profile
+    end
+  end
+
+  defmodule Tutorial do
+    use Ash.Api
+
+    resources do
+      registry Tutorial.Registry
+    end
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution:
+
+```elixir
+defmodule Tutorial.Profile do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions do
+    defaults([:create, :read, :update, :destroy])
+  end
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:name, :string)
+  end
+end
+
+defmodule Tutorial.Registry do
+  use Ash.Registry
+
+  entries do
+    entry(Tutorial.Profile)
+  end
+end
+
+defmodule Tutorial do
+  use Ash.Api
+
+  resources do
+    registry(Tutorial.Registry)
+  end
+end
+```
+
+## Creating
+
+Create 2 Profiles.
+
+* One with the name "Joe Armstrong"
+* One with the name "José Valim"
+
+You can create a `Profile` by:
+
+* first by creating a Changeset with `Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})`,
+* and then giving the changeset to `Tutorial.create!()`.
+
+Hint: a pipeline are a clean way of achieving this.
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  Tutorial.Profile
+  |> Ash.Changeset.for_create(:create, %{name: "The Name"})
+  |> Tutorial.create!()
+  ```
+
+  </div>
+</details>
+
+Enter your solution:
+
+```elixir
+
+```
+
+## Reading
+
+Now, let's read all the generated Profiles.
+
+Call `Tutorial.read!/1` with the `Tutorial.Profile` module.
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  Tutorial.Profile
+  |> Tutorial.read!()
+  ```
+
+  </div>
+</details>
+
+Enter your solution:
+
+```elixir
+Tutorial.Profile
+|> Tutorial.read!()
+```
+
+Now let's fetch the "Joe Armstrong" Profile.
+
+We can do this by introducing a filter.
+
+First you'll need to `require Ash.Query`.
+
+Then call `Ash.Query.filter(name == "Joe Armstrong")` with the `Tutorial.Profile`.
+
+Make a pipeline that uses this filter and put the result into a `joe` variable. `read!/1` returns a list, so make sure to extract the single returned value out of that list.
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  require Ash.Query
+
+  [joe] = 
+    Tutorial.Profile
+    |> Ash.Query.filter(name == "Joe Armstrong")
+    |> Tutorial.read!()
+  ```
+
+  </div>
+</details>
+
+Enter your solution:
+
+```elixir
+require Ash.Query
+
+[joe] =
+  Tutorial.Profile
+  |> Ash.Query.filter(name == "Neil Armstrong")
+  |> Tutorial.read!()
+```
+
+We'll use the `joe` variable in the the updating section.
+
+## Updating
+
+Now change `Joe Armstrong`'s name by `Neil Armstrong`.
+
+You can do this by providing the `Ash.Changeset.for_update/3` with `joe`, the `:update` atom and a map of the values we want to change, in this case `%{name: "Neil Armstrong"}`
+
+Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
+
+Again, using a pipeline might be a good idea.
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  joe
+  |> Ash.Changeset.for_update(:update, %{name: "Neil Armstrong"})
+  |> Tutorial.update!()
+  ```
+
+  </div>
+</details>
+
+Enter your solution:
+
+```elixir
+
+```
+
+## Destroying
+
+Finally, remove `joe` from the data storage.
+
+Do this using the `Tutorial.destroy!/1` method.
+
+<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
+  <div class="mt-4">
+
+  ```elixir
+  joe
+  |> Tutorial.destroy!()
+  ```
+
+  </div>
+</details>
+
+Enter your solution:
+
+```elixir
+
+```
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="data_persistence.livemd">Data Persistence</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>

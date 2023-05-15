@@ -127,7 +127,7 @@ end
 
 <!-- livebook:{"break_markdown":true} -->
 
-We can now call `create!\1` to create a Profile.
+We can now call `create!/1` to create a Profile.
 
 ```elixir
 Tutorial.Profile
