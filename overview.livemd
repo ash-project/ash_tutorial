@@ -22,3 +22,4 @@ Have fun!
 4. [Data Persistence](data_persistence.livemd)
 5. [Querying](querying.livemd)
 6. [Attributes](attributes.livemd)
+7. [Customizing Actions](customizing_actions.livmd)

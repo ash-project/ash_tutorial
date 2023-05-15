@@ -1,0 +1,284 @@
+# Customizing Actions
+
+```elixir
+Mix.install([:ash])
+```
+
+## Customizing Actions
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="attributes.livemd">Attributes</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+### In this tutorial you will add custom Actions on the Ticket resource
+
+Create 2 custom actions, `:open` and `:close`.
+
+Custom actions allow you to attach *semantics* to actions.
+
+* Instead of *Creating* a ticket, you can *Open* a ticket.
+* Instead of *Updating* the status on a ticket you can *Close* it.
+
+In addition, you can customize the behaviour of these actions. For example, closing a ticket only sets the status to `:closed`.
+
+It also allows you to define what are acceptable arguments. For example for the `:open` action, you can only allow the `:subject` and `:description` to be set. It does not make sense to set the `:status` in this case as it should always be `:open`. For the closing action you won't allow any arguments.
+
+Custom actions go inside the `actions do ... end` block.
+
+To define the `:open` action, open a `do end` block like so:
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+create :open do
+
+end
+```
+
+Same for the `:close` action, but instead of `create`, use `update`.
+
+You then can define the accepted attributes like so:
+
+`accept [:subject, :description]`
+
+Or in the case of the `:close` action:
+
+`accept []`
+
+Then for the `:close` action define a `change`:
+
+`change set_attribute(:status, :closed)`
+
+That's it, you defined your first custom actions.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  `defmodule Tutorial.Support.Ticket do
+    use Ash.Resource,
+      data_layer: Ash.DataLayer.Ets
+
+    actions do
+      create :open do
+        # By default you can provide all public attributes to an action
+        # This action should only accept the subject
+        accept [:subject, :description]
+      end
+
+      update :close do
+        # We don't want to accept any input here
+        accept []
+
+        change set_attribute(:status, :closed)
+        # A custom change could be added like so:
+        #
+        # change MyCustomChange
+        # change {MyCustomChange, opt: :val}
+      end
+    end
+
+    attributes do
+      uuid_primary_key :id
+
+      attribute :subject, :string, allow_nil?: false
+      attribute :description, :string
+      attribute :status, :atom do
+        constraints [one_of: [:open, :closed]]
+        default :open
+        allow_nil? false
+      end
+
+      create_timestamp :created_at
+      update_timestamp :updated_at
+    end
+  end
+
+  defmodule Tutorial.Support.Registry do
+    use Ash.Registry
+
+    entries do
+      entry Tutorial.Support.Ticket
+    end
+  end
+
+  defmodule Tutorial.Support do
+    use Ash.Api
+
+    resources do
+      registry Tutorial.Support.Registry
+    end
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution
+
+```elixir
+defmodule Tutorial.Support.Ticket do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions do
+    # <-- Add the :open and :close action
+  end
+
+  attributes do
+    uuid_primary_key(:id)
+
+    attribute(:subject, :string, allow_nil?: false)
+    attribute(:description, :string)
+
+    attribute :status, :atom do
+      constraints(one_of: [:open, :closed])
+      default(:open)
+      allow_nil?(false)
+    end
+
+    create_timestamp(:created_at)
+    update_timestamp(:updated_at)
+  end
+end
+
+defmodule Tutorial.Support.Registry do
+  use Ash.Registry
+
+  entries do
+    entry(Tutorial.Support.Ticket)
+  end
+end
+
+defmodule Tutorial.Support do
+  use Ash.Api
+
+  resources do
+    registry(Tutorial.Support.Registry)
+  end
+end
+```
+
+## Open a Ticket
+
+Open a ticket.
+
+Remember, when creating a resource use a changeset (`Ash.Changeset.for_create/3`), which gets passed to `Tutorial.Support.create!/1`. But in this case use the `:open` argument instead of `:create`.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:open, %{subject: "My Subject"})
+  |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+Try setting the `:status` to `:closed` and see if it works.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:open, %{subject: "My Subject", status: :closed})
+  |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+The output when trying to set `:status` should look something like this:
+
+```
+** (Ash.Error.Invalid) Input Invalid
+
+* Invalid value provided for status: cannot be changed.
+```
+
+This is because you set the accepted attributes to `:subject` and `:description` only
+
+**Enter your solution**
+
+```elixir
+
+```
+
+Create a Ticket and store it in the `ticket` variable.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  ticket =
+    Tutorial.Support.Ticket
+    |> Ash.Changeset.for_create(:open, %{subject: "My Subject"})
+    |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+**Enter your solution**
+
+```elixir
+
+```
+
+## Close a Ticket
+
+Close the `ticket` you created in the previous section.
+
+Remember to use `Ash.Changeset.for_update/2` with the `:close` action.
+
+To update use `Tutorial.Support.update!/1`.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  ticket
+  |> Ash.Changeset.for_update(:close)
+  |> Tutorial.Support.update!()
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="attributes.livemd">Attributes</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>

@@ -15,8 +15,8 @@ Mix.install([:ash])
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="customizing_actions.livemd">Customizing Actions</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -306,8 +306,8 @@ Finally call `Tutorial.Support.read_one!()` on the query.
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="customizing_actions.livemd">Customizing Actions</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
