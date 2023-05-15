@@ -41,9 +41,9 @@ For now let's just add a default `:create` action by adding `defaults [:create]`
 
 **You've now built your first action.**
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   defmodule Tutorial.Profile do

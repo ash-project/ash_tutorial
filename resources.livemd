@@ -37,9 +37,9 @@ For our first attribute, let's define a primary key `uuid_primary_key :id` insid
 
 And also define a name by adding `attribute :name, :string`
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   defmodule Tutorial.Profile do

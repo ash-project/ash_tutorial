@@ -34,9 +34,9 @@ Add the [ETS data layer](https://ash-hq.org/docs/dsl/ash-resource#ets) `data_lay
 
 A more common data persistence layer in production is [Postgres](https://github.com/ash-project/ash_postgres), but with ETS we keep dependencies to a minimum in this tutorial.
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   defmodule Tutorial.Profile do

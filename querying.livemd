@@ -27,9 +27,9 @@ But first you need to enable all basic CRUD operations.
 
 Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   defmodule Tutorial.Profile do
@@ -114,9 +114,9 @@ You can create a `Profile` by:
 
 *Hint: use a pipeline*
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   Tutorial.Profile
@@ -139,9 +139,9 @@ Now, let's read all the generated Profiles.
 
 Call `Tutorial.read!/1` with the `Tutorial.Profile` module.
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   Tutorial.Profile
@@ -167,9 +167,9 @@ Then call `Ash.Query.filter(name == "Joe Armstrong")` with the `Tutorial.Profile
 
 Put the result into the `joe` variable. `read!/1` returns a list, so make sure to extract the single returned value out of that list.
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   require Ash.Query
@@ -205,9 +205,9 @@ Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
 
 *Hint: using a pipeline might be a good idea.*
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   joe
@@ -230,9 +230,9 @@ Finally, remove `joe` from the database.
 
 Do this using the `Tutorial.destroy!/1` method.
 
-<details class="rounded-lg p-4 my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold"></i>Show Solution</summary>
-  <div class="mt-4">
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
 
   ```elixir
   Tutorial.destroy!(joe)
