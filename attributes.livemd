@@ -267,6 +267,36 @@ Now try creating a ticket with the status set to `:pending`. This should give an
 
 ```
 
+## Latest created Ticket
+
+Since you added a creation date, you can now query on the latest created ticket.
+
+First, sort using the `Ash.Query.sort/1` function by `Ash.Query.sort(created_at: :desc)`
+
+Then limit the amount of records with the `Ash.Query.limit/2` function by doing `Ash.Query.limit(1)`
+
+Finally call `Tutorial.Support.read_one!()` on the query.
+
+*Hint: Use a pipeline*
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Query.sort(created_at: :desc)
+  |> Ash.Query.limit(1)
+  |> Tutorial.Support.read_one!()
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
