@@ -1,0 +1,283 @@
+# Attributes
+
+```elixir
+Mix.install([:ash])
+```
+
+## Attributes
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="querying.livemd">Querying</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+### In this tutorial you will add and configure Attributes to a Ticket resource
+
+The Ticket resource will represent a helpdesk ticket.
+
+It will have 3 main attributes.
+
+* A `subject` or title
+* A `description`
+* A `status` which can be either `:open` or `:closed`
+
+It will also have 2 attributes for keeping track of when the ticket was *created*, and when it was *last updated*.
+
+#### Subject
+
+You need to make sure the `subject` is always set, it's not possible to create a ticket without a subject. You can do this by setting `allow_nil?` to `false`. Like so: `attribute :subject, :string, allow_nil?: false`
+
+#### Description
+
+The `:description` is simple, it's a `:string` and it is allowed to be empty.
+
+#### Status
+
+`:status` is more complicated.
+
+* It is of the type `:atom`
+* It can only be the value `:open` or `:closed`
+* By default it is `:open`
+* And it can't be `nil`
+
+To keep things readable, Attributes can be set in a `do end` block like so:
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+attribute :status, :atom do
+  
+  # ...
+  
+  allow_nil? false
+end
+```
+
+To set a constraint of values, you can use the `constraints` option, like so:
+
+`constraints [one_of: [:open, :closed]]`
+
+To set the default you use `default :open`.
+
+#### Keeping track of Created and Updated
+
+Ash provides `create_timestamp` and `update_timestamp` to keep track of when the Resource was first created, and when it was last updated.
+
+Add the following to the attributes block.
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+create_timestamp :created_at
+update_timestamp :updated_at
+```
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  defmodule Tutorial.Support.Ticket do
+    use Ash.Resource,
+      data_layer: Ash.DataLayer.Ets
+
+    actions do
+      defaults([:create, :read, :update, :destroy])
+    end
+
+    attributes do
+      uuid_primary_key :id
+
+      attribute :subject, :string, allow_nil?: false
+      attribute :description, :string
+
+      # status is either `open` or `closed`.
+      attribute :status, :atom do
+        # Constraints allow you to provide extra rules for the value.
+        # The available constraints depend on the type
+        # See the documentation for each type to know what constraints are available
+        # Since atoms are generally only used when we know all of the values
+        # it provides a `one_of` constraint, that only allows those values
+        constraints [one_of: [:open, :closed]]
+
+        default :open
+        allow_nil? false
+      end
+
+      create_timestamp :created_at
+      update_timestamp :updated_at
+    end
+  end
+
+  defmodule Tutorial.Support.Registry do
+    use Ash.Registry
+
+    entries do
+      entry Tutorial.Support.Ticket
+    end
+  end
+
+  defmodule Tutorial.Support do
+    use Ash.Api
+
+    resources do
+      registry Tutorial.Support.Registry
+    end
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution
+
+```elixir
+defmodule Tutorial.Support.Ticket do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions do
+    defaults([:create, :read, :update, :destroy])
+  end
+
+  attributes do
+    uuid_primary_key(:id)
+
+    # Add the attributes here -->
+    # - Subject
+    # - Description
+    # - Status
+    # - Create Timestamp
+    # - Update Timestamp
+  end
+end
+
+defmodule Tutorial.Support.Registry do
+  use Ash.Registry
+
+  entries do
+    entry(Tutorial.Support.Ticket)
+  end
+end
+
+defmodule Tutorial.Support do
+  use Ash.Api
+
+  resources do
+    registry(Tutorial.Support.Registry)
+  end
+end
+```
+
+## Creating a Ticket
+
+Try creating a `Ticket` without any attributes.
+
+Remember, when creating a resource use a changeset (`Ash.Changeset.for_create/3`), which gets passed to `Tutorial.Support.create!/1`.
+
+The output should look something like this:
+
+```
+** (Ash.Error.Invalid) Input Invalid
+
+* attribute subject is required
+```
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:create, %{})
+  |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+Now create a Ticket with a `subject`
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:create, %{subject: "This is the subject"})
+  |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+Now create a ticket with the `status` set to `:closed`
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:create, %{subject: "This is the subject", status: :closed})
+  |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+Now try creating a ticket with the status set to `:pending`. This should give an error because `:pending` is not a valid `status`.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:create, %{subject: "This is the subject", status: :pending})
+  |> Tutorial.Support.create!()
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="querying.livemd">Querying</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>

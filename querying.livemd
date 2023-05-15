@@ -15,8 +15,8 @@ Mix.install([:ash])
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="attributes.livemd">Attributes</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -256,8 +256,8 @@ Do this using the `Tutorial.destroy!/1` method.
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="attributes.livemd">Attributes</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
