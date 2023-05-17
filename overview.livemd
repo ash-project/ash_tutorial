@@ -8,7 +8,7 @@ Mix.install([:ash])
 
 It's recommended to start the tutorial **sequentially from the beginning** as each section introduces new concepts that will later be used.
 
-The best way to follow the tutorial is reading the instructions, coming up with your own solution, and then **verifying with the proposed solution**. It is also recommended to **not copy paste** code.
+The best way to follow the tutorial is reading the instructions in the tutorial, coming up with your own solution, and then **verifying with the proposed solution**. It is also recommended to **not copy paste** code.
 
 Consult the [Ash documentation](https://ash-hq.org/docs/guides/ash/latest/tutorials/get-started) to learn more.
 
@@ -22,4 +22,4 @@ Have fun!
 4. [Data Persistence](data_persistence.livemd)
 5. [Querying](querying.livemd)
 6. [Attributes](attributes.livemd)
-7. [Customizing Actions](customizing_actions.livmd)
+7. [Customizing Actions](customizing_actions.livemd)

@@ -19,7 +19,7 @@ Mix.install([:ash])
 
 <!-- livebook:{"break_markdown":true} -->
 
-### In this tutorial, you will create a simple profile resource with a name attribute
+### In this tutorial, you will create a simple Profile resource with a name attribute
 
 First define the `Tutorial.Profile` module as a **Resource** with the `use Ash.Resource` macro.
 

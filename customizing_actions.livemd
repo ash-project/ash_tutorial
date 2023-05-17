@@ -67,7 +67,7 @@ That's it, you defined your first custom actions.
   <div class="p-4">
 
   ```elixir
-  `defmodule Tutorial.Support.Ticket do
+  defmodule Tutorial.Support.Ticket do
     use Ash.Resource,
       data_layer: Ash.DataLayer.Ets
 
