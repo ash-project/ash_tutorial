@@ -23,7 +23,7 @@ Mix.install([:ash])
 
 First define the `Tutorial.Profile` module as a **Resource** with the `use Ash.Resource` macro.
 
-Next let's add some attributes, this is done in an **attributes** block inside the module:
+Next, add some attributes. This is done in an **attributes** block inside the module:
 
 <!-- livebook:{"force_markdown":true} -->
 

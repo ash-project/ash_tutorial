@@ -21,9 +21,9 @@ Mix.install([:ash])
 </div>
 </div>
 
-### In this tutorial you will do basic Query operations
+### In this tutorial you will do basic Query and CRUD operations
 
-But first you need to enable all basic CRUD operations.
+But first you need to enable all basic **CRUD** operations.
 
 Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
 
@@ -109,8 +109,8 @@ Add 2 Profiles to the database.
 
 You can create a `Profile` by:
 
-* first by creating a Changeset with `Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})`,
-* and then giving the changeset to `Tutorial.create!()`.
+* Creating a Changeset with `Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})`,
+* Then giving the changeset to `Tutorial.create!()`.
 
 *Hint: Use a pipeline*
 

@@ -44,12 +44,12 @@ A more common data persistence layer in production is [Postgres](https://github.
       data_layer: Ash.DataLayer.Ets
 
     actions do
-      defaults [:create, :read]
+      defaults([:create])
     end
 
     attributes do
-      uuid_primary_key :id
-      attribute :name, :string
+      uuid_primary_key(:id)
+      attribute(:name, :string)
     end
   end
   ```
@@ -73,6 +73,10 @@ defmodule Tutorial.Profile do
   end
 end
 ```
+
+If everything is set up correctly, data now gets persisted to ETS. Next up you will **CRUD** on your resource.
+
+<!-- livebook:{"break_markdown":true} -->
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">

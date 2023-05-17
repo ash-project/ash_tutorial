@@ -25,7 +25,7 @@ Mix.install([:ash])
 
 ### In this tutorial, you will create a Resource with a 'create' action
 
-First let's add the action block inside the Resource.
+First, add the action block inside the Resource.
 
 <!-- livebook:{"force_markdown":true} -->
 
