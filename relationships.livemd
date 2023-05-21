@@ -25,7 +25,7 @@ Mix.install([:ash])
 
 Create a `relationships do .. end` block in both the Ticket and Representative resource.
 
-Inside the Ticket `resource` relationship block, define a `belongs_to` representative like so:
+Inside the Ticket `relationship` block, define a `belongs_to` representative like so:
 
 `belongs_to :representative, Tutorial.Support.Representative`
 
