@@ -1,0 +1,171 @@
+# Managing Relationships
+
+```elixir
+Mix.install([:ash])
+```
+
+## Managing Relationships
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="relationships.livemd">Relationships</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+### In this tutorial you will manage Relationships the idiomatic way
+
+Create an `update :assign` action block.
+
+The action should:
+
+* Only accept the `:representative_id`
+* Assign the `representative_id` to the `representative` field.
+
+Do this by adding the following code inside the `:assign` action:
+
+* `accept []`
+* `argument :representative_id, :uuid, allow_nil?: false`
+* `change manage_relationship(:representative_id, :representative, type: :append_and_remove)`
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  update :assign do
+    # No attributes should be accepted
+    accept []
+
+    # We accept a representative's id as input here
+    argument :representative_id, :uuid, allow_nil?: false
+
+    # We use a change here to replace the related Representative
+    # If there is a different representative for this Ticket, it will be changed to the new one
+    # The Representative itself is not modified in any way
+    change manage_relationship(:representative_id, :representative, type: :append_and_remove)
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution
+
+```elixir
+defmodule Tutorial.Support.Ticket do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions do
+    defaults([:read, :update])
+    create(:open, do: accept([:subject, :description]))
+    update(:close, do: [accept: [], change: set_attribute(:status, :closed)])
+
+    # <--- Add the assign action here
+  end
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:subject, :string, allow_nil?: false)
+    attribute(:description, :string)
+
+    attribute :status, :atom do
+      constraints(one_of: [:open, :closed])
+      default(:open)
+      allow_nil?(false)
+    end
+
+    create_timestamp(:created_at)
+    update_timestamp(:updated_at)
+  end
+
+  relationships do
+    belongs_to(:representative, Tutorial.Support.Representative)
+  end
+end
+
+defmodule Tutorial.Support.Representative do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions(do: defaults([:create, :read, :update, :destroy]))
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:name, :string)
+  end
+end
+
+defmodule Tutorial.Support.Registry do
+  use Ash.Registry
+
+  entries do
+    entry(Tutorial.Support.Ticket)
+    entry(Tutorial.Support.Representative)
+  end
+end
+
+defmodule Tutorial.Support do
+  use Ash.Api
+
+  resources do
+    registry(Tutorial.Support.Registry)
+  end
+end
+```
+
+## Using the Assign action
+
+Create a Representative:
+
+```elixir
+joe =
+  Tutorial.Support.Representative
+  |> Ash.Changeset.for_create(:create, %{name: "Joe Armstrong"})
+  |> Tutorial.Support.create!()
+```
+
+Create a Ticket:
+
+```elixir
+ticket =
+  Tutorial.Support.Ticket
+  |> Ash.Changeset.for_create(:open, %{subject: "I can't find my hand!"})
+  |> Tutorial.Support.create!()
+```
+
+Assign the Representative to the Ticket:
+
+```elixir
+ticket
+|> Ash.Changeset.for_update(:assign, %{representative_id: joe.id})
+|> Tutorial.Support.update!()
+```
+
+This is a relatively simple example of how to manage a relationship, but in real world applications your relationships can get quite complex. To learn more about this topic, visit the [Managing Relationships](https://ash-hq.org/docs/guides/ash/2.9.5/topics/managing-relationships#managing-relationships) section in the documentation.
+
+<!-- livebook:{"break_markdown":true} -->
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="relationships.livemd">Relationships</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
