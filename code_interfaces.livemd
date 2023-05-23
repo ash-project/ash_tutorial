@@ -1,0 +1,219 @@
+# Code Interfaces
+
+```elixir
+Mix.install([:ash])
+```
+
+## Code Interfaces
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="managing_relationships.livemd">Managing Relationships</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+### In this tutorial you will add a Code Interface
+
+In previous tutorials you always used `Changesets` directly to CRUD on resources.
+While this is a perfectly valid way of handling CRUD operations, Ash provides [Code Interfaces](https://ash-hq.org/docs/guides/ash/2.9.6/topics/code-interface) to make this more ergonomic for you.
+
+You will add 3 code interfaces for:
+
+* Creating a representative
+* Opening a ticket
+* Assigning a representative
+
+Add a `code_interface do ... end` block to both the `Ticket` and `Representative` resource.
+
+Inside each of these `code_interface` blocks, add `define_for Tutorial.Support`.
+
+Then add the 3 interfaces by defining the following inside the `Ticket` resource `code_interface` block.
+
+* `define :assign, args: [:representative_id]`
+* `define :open, args: [:subject, :description]`
+
+And the following inside the `Representative` `code_interface` block.
+
+* `define :create, args: [:name]`
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  # Ticket
+  code_interface do
+    define_for Tutorial.Support
+
+    define :assign, args: [:representative_id]
+    define :open, args: [:subject, :description]
+  end
+
+  # Representative
+  code_interface do
+    define_for Tutorial.Support
+
+    define :create, args: [:name]
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution
+
+```elixir
+defmodule Tutorial.Support.Ticket do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions do
+    defaults([:read, :update])
+    create(:open, do: accept([:subject, :description]))
+    update(:close, do: [accept: [], change: set_attribute(:status, :closed)])
+
+    update :assign do
+      accept([])
+      argument(:representative_id, :uuid, allow_nil?: false)
+      change(manage_relationship(:representative_id, :representative, type: :append_and_remove))
+    end
+  end
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:subject, :string, allow_nil?: false)
+    attribute(:description, :string, allow_nil?: true)
+
+    attribute :status, :atom do
+      constraints(one_of: [:open, :closed])
+      default(:open)
+      allow_nil?(false)
+    end
+
+    create_timestamp(:created_at)
+    update_timestamp(:updated_at)
+  end
+
+  relationships do
+    belongs_to(:representative, Tutorial.Support.Representative)
+  end
+
+  # <-- Add code_interface here
+end
+
+defmodule Tutorial.Support.Representative do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions(do: defaults([:create, :read, :update, :destroy]))
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:name, :string)
+  end
+
+  # <-- Add code_interface here
+end
+
+defmodule Tutorial.Support.Registry do
+  use Ash.Registry
+
+  entries do
+    entry(Tutorial.Support.Ticket)
+    entry(Tutorial.Support.Representative)
+  end
+end
+
+defmodule Tutorial.Support do
+  use Ash.Api
+
+  resources do
+    registry(Tutorial.Support.Registry)
+  end
+end
+```
+
+## Using the Code Interfaces
+
+Create a Representative, but instead of using a changeset, use the code interface you created.
+
+You can use a code interface by calling `Tutorial.Support.Representative.create!/1` with the desired name.
+
+Set the name to `Joe Armstrong` and store it in a `joe` variable.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  joe = Tutorial.Support.Representative.create!("Joe Armstrong")
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+Create a Ticket with the created code interface.
+
+Call `Tutorial.Support.Ticket.open!/2` with a `subject` and `description` and store the result in a `ticket` variable.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  ticket = Tutorial.Support.Ticket.open!("I can't find my hand!", "I think someone stole it.")  
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+Assign the Representative `joe` to the Ticket using the code Interface.
+
+Use `Tutorial.Support.Ticket.assign!/2`.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  Tutorial.Support.Ticket.assign!(ticket, joe.id)
+  ```
+
+  </div>
+</details>
+
+```elixir
+
+```
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="managing_relationships.livemd">Managing Relationships</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
