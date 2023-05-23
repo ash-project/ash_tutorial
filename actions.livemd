@@ -87,6 +87,10 @@ Tutorial.Profile
 |> Ash.Changeset.for_create(:create, %{name: "My Name"})
 ```
 
+To learn more about actions, read the [section on Actions in the documentation](https://ash-hq.org/docs/guides/ash/2.9.6/topics/actions)
+
+<!-- livebook:{"break_markdown":true} -->
+
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
