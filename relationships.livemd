@@ -46,8 +46,6 @@ Inside the Ticket `relationship` block, define a `belongs_to` representative lik
       belongs_to :representative, Tutorial.Support.Representative
     end
   
-  end
-
   # ...
   ```
 
@@ -96,7 +94,9 @@ defmodule Tutorial.Support.Representative do
     attribute(:name, :string)
   end
 end
+```
 
+```elixir
 defmodule Tutorial.Support.Registry do
   use Ash.Registry
 
