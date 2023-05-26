@@ -23,9 +23,9 @@ Mix.install([:ash])
 
 ### In this tutorial you will create a relationship between a Ticket and Representative resource
 
-Create a `relationships do .. end` block in both the Ticket and Representative resource.
+Create a `relationships do .. end` block in the Ticket resource.
 
-Inside the Ticket `relationship` block, define a `belongs_to` representative like so:
+Inside the `relationship` block, define a `belongs_to` representative like so:
 
 `belongs_to :representative, Tutorial.Support.Representative`
 
