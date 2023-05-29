@@ -123,7 +123,9 @@ defmodule Tutorial.Support.Representative do
 
   # <-- Add code_interface here
 end
+```
 
+```elixir
 defmodule Tutorial.Support.Registry do
   use Ash.Registry
 

@@ -104,7 +104,9 @@ defmodule Tutorial.Support.Representative do
     attribute(:name, :string)
   end
 end
+```
 
+```elixir
 defmodule Tutorial.Support.Registry do
   use Ash.Registry
 
