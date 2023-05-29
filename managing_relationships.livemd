@@ -68,7 +68,11 @@ defmodule Tutorial.Support.Ticket do
   actions do
     defaults([:read, :update])
     create(:open, do: accept([:subject, :description]))
-    update(:close, do: [accept: [], change: set_attribute(:status, :closed)])
+
+    update :close do
+      accept([])
+      change(set_attribute(:status, :closed))
+    end
 
     # <--- Add the assign action here
   end
