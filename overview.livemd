@@ -26,3 +26,7 @@ Have fun!
 8. [Relationships](relationships.livemd)
 9. [Managing Relationships](managing_relationships.livemd)
 10. [Code Interfaces](code_interfaces.livemd)
+
+<!-- livebook:{"break_markdown":true} -->
+
+_Anything missing? Any errors? Tutorials out of date? [Contributions are welcome!](https://github.com/woutdp/ash_tutorial)_
