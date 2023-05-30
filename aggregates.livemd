@@ -15,8 +15,8 @@ Mix.install([:ash])
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="calculations.livemd">Calculations</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -203,8 +203,8 @@ The result should be __2__, as you opened 4 tickets, 3 were assigned to Joe, but
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="calculations.livemd">Calculations</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
