@@ -6,11 +6,13 @@ Mix.install([:ash])
 
 ## Overview
 
-It's recommended to start the tutorial **sequentially from the beginning** as each section introduces new concepts that will later be used.
+In this tutorial you will create Ash Resources, query on them and use ETS as your data storage. You won't be building an overarching application, instead you'll build Resources that introduce you to Ash concepts.
+
+Each tutorial builds on top of the previous one, it is therefore recommended to start the tutorial **sequentially from the beginning** as each section introduces new concepts that will later be used.
 
 The best way to follow the tutorial is reading the instructions in the tutorial, coming up with your own solution, and then **verifying with the proposed solution**. It is also recommended to **not copy paste** code.
 
-Consult the [Ash documentation](https://ash-hq.org/docs/guides/ash/latest/tutorials/get-started) to learn more.
+The goal of this tutorial is to get you familiar with the basic concepts of Ash, and give you a good sense of what's possible. It serves as a primer for the [Ash documentation](https://ash-hq.org/docs/guides/ash/latest/tutorials/get-started). Feel free to consult this documentation alongside the tutorial to learn more. That being said, the documenation shouldn't be necessary to complete the tutorial.
 
 Have fun!
 
@@ -28,6 +30,8 @@ Have fun!
 10. [Code Interfaces](code_interfaces.livemd)
 11. [Aggregates](aggregates.livemd)
 
-<!-- livebook:{"break_markdown":true} -->
+## Contributing?
 
 _Anything missing? Any errors? Tutorials out of date? [Contributions are welcome!](https://github.com/woutdp/ash_tutorial)_
+
+_When contributing, please follow the guidelines in [diataxis](https://diataxis.fr/tutorials/)._
