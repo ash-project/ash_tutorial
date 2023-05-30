@@ -26,6 +26,7 @@ Have fun!
 8. [Relationships](relationships.livemd)
 9. [Managing Relationships](managing_relationships.livemd)
 10. [Code Interfaces](code_interfaces.livemd)
+11. [Aggregates](aggregates.livemd)
 
 <!-- livebook:{"break_markdown":true} -->
 

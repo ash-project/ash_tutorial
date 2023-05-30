@@ -15,8 +15,8 @@ Mix.install([:ash])
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="aggregates.livemd">Aggregates</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -218,8 +218,8 @@ Use `Tutorial.Support.Ticket.assign!/2`.
 <i class="ri-home-fill"></i>
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
-<div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<div class="flex">
+<a class="flex mr-2" style="color: #61758a;" href="aggregates.livemd">Aggregates</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>

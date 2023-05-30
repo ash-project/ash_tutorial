@@ -1,0 +1,210 @@
+# Aggregates
+
+```elixir
+Mix.install([:ash])
+```
+
+## Aggregates
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="code_interfaces.livemd">Code Interfaces</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
+
+### In this tutorial you will add an Aggregate on a Resource
+
+[Aggregates](https://ash-hq.org/docs/guides/ash/2.9.6/topics/aggregates#aggregates) in Ash allow for retrieving summary information over groups of related data. Aggregates can be either _count_, _first_, _sum_ or _list_.
+
+Implement a count aggregate on the 'open tickets' a representative is assigned to.
+
+First explore the comments in the code below, to make this work properly you have to:
+
+* Set the representative belongs_to relationship to writable
+* Add the representative_id to the open action
+* Add the representative_id to the code interface
+* Add the inverse relationship of belongs_to inside the Representative resource
+
+Only the latter is really required for aggregates to work, the first 3 allow you to be a bit more concise when creating new tickets.
+
+To add an aggregate define an `aggregate do .. end` block inside the representative.
+
+Inside the aggregate block, define a `count :count_of_open_tickets, :tickets do .. end` block.
+
+Then inside this block, define a filter like so: `filter expr(status == :open)`
+
+Also, notice what happens when you don't define a filter.
+
+<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
+  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
+  <div class="p-4">
+
+  ```elixir
+  aggregates do
+    count :count_of_open_tickets, :tickets do
+      filter expr(status == :open)
+    end
+  end
+  ```
+
+  </div>
+</details>
+
+### Enter your solution
+
+```elixir
+defmodule Tutorial.Support.Ticket do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions do
+    defaults([:read, :update])
+
+    # On creation set the representative by providing the id
+    create(:open, do: accept([:subject, :description, :representative_id]))
+
+    update :close do
+      accept([])
+      change(set_attribute(:status, :closed))
+    end
+
+    update :assign do
+      accept([])
+      argument(:representative_id, :uuid, allow_nil?: false)
+      change(manage_relationship(:representative_id, :representative, type: :append_and_remove))
+    end
+  end
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:subject, :string, allow_nil?: false)
+    attribute(:description, :string, allow_nil?: true)
+
+    attribute :status, :atom do
+      constraints(one_of: [:open, :closed])
+      default(:open)
+      allow_nil?(false)
+    end
+
+    create_timestamp(:created_at)
+    update_timestamp(:updated_at)
+  end
+
+  relationships do
+    belongs_to(:representative, Tutorial.Support.Representative) do
+      # Set to writable so you can directly set the representative_id inside the :open action
+      attribute_writable?(true)
+    end
+  end
+
+  code_interface do
+    define_for(Tutorial.Support)
+
+    define(:assign, args: [:representative_id])
+    # <- added representative_id
+    define(:open, args: [:subject, :description, :representative_id])
+    define(:close, args: [])
+  end
+end
+
+defmodule Tutorial.Support.Representative do
+  use Ash.Resource,
+    data_layer: Ash.DataLayer.Ets
+
+  actions(do: defaults([:create, :read, :update, :destroy]))
+
+  attributes do
+    uuid_primary_key(:id)
+    attribute(:name, :string)
+  end
+
+  # Added the inverse relationship of belongs_to in the ticket.
+  # This way we can reference :tickets inside the aggregates.
+  relationships do
+    has_many(:tickets, Tutorial.Support.Ticket)
+  end
+
+  code_interface do
+    define_for(Tutorial.Support)
+
+    define(:create, args: [:name])
+  end
+
+  # <- Add the aggregates here
+end
+```
+
+```elixir
+defmodule Tutorial.Support.Registry do
+  use Ash.Registry
+
+  entries do
+    entry(Tutorial.Support.Ticket)
+    entry(Tutorial.Support.Representative)
+  end
+end
+
+defmodule Tutorial.Support do
+  use Ash.Api
+
+  resources do
+    registry(Tutorial.Support.Registry)
+  end
+end
+```
+
+## Query the Aggregate
+
+Use a [Bulk Action](https://ash-hq.org/docs/guides/ash/2.9.5/topics/bulk-actions#bulk-actions) to create 4 tickets, 3 of which are assigned to joe, and close the last ticket assigned to Joe.
+
+```elixir
+# Create a representative
+joe = Tutorial.Support.Representative.create!("Joe Armstrong")
+
+# Bulk create 4 tickets, 3 of which are assigned to Joe
+[_, _, _, last_ticket] =
+  [
+    %{subject: "I can't see my eyes!"},
+    %{subject: "I can't find my hand!", representative_id: joe.id},
+    %{subject: "My fridge is flying away!", representative_id: joe.id},
+    %{subject: "My bed is invisible!", representative_id: joe.id}
+  ]
+  |> Tutorial.Support.bulk_create(Tutorial.Support.Ticket, :open, return_records?: true)
+  |> Map.get(:records)
+
+# Close the last ticket
+Tutorial.Support.Ticket.close!(last_ticket)
+```
+
+```elixir
+joe = Tutorial.Support.load!(joe, [:count_of_open_tickets])
+joe.count_of_open_tickets
+```
+
+The result should be __2__, as you opened 4 tickets, 3 were assigned to Joe, but the last assigned ticket was closed.
+
+<!-- livebook:{"break_markdown":true} -->
+
+<div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
+<div class="flex">
+<i class="ri-arrow-left-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="code_interfaces.livemd">Code Interfaces</a>
+</div>
+<div class="flex">
+<i class="ri-home-fill"></i>
+<a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
+</div>
+<div class="flex hidden">
+<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<i class="ri-arrow-right-fill"></i>
+</div>
+</div>
