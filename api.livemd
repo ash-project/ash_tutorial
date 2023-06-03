@@ -21,9 +21,9 @@ Mix.install([:ash])
 </div>
 </div>
 
-### In this tutorial you're will create a Registry and an API
+### In this tutorial you'll create a Registry and an API
 
-* A **Registry** is a collecion of Resources, it's used to reduce improve compile times and reduce compile time dependencies.
+* A **Registry** is a collecion of Resources. It's used to improve compile times and reduce compile-time dependencies.
 * An **API** is a way for you to interact with your resources.
 
 #### Registry

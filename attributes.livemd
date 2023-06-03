@@ -67,13 +67,13 @@ To set a constraint of values, you can use the `constraints` option, like so:
 
 `constraints [one_of: [:open, :closed]]`
 
-To set the default you use `default :open`.
+To set the default, you use `default :open`.
 
 #### Keeping track of Created and Updated
 
 Ash provides [create_timestamp](https://ash-hq.org/docs/dsl/ash-resource#attributes-create_timestamp) and [update_timestamp](https://ash-hq.org/docs/dsl/ash-resource#attributes-update_timestamp) to keep track of when the Resource was first created, and when it was last updated.
 
-Add the following to the attributes block.
+Add the following to the attributes block:
 
 <!-- livebook:{"force_markdown":true} -->
 

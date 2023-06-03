@@ -36,9 +36,9 @@ First explore the comments in the code below, to make this work properly you hav
 
 Only the latter is really required for aggregates to work, the first 3 allow you to be a bit more concise when creating new tickets.
 
-To add an aggregate define an `aggregate do .. end` block inside the representative.
+To add an aggregate define an `aggregates do .. end` block inside the representative.
 
-Inside the aggregate block, define a `count :count_of_open_tickets, :tickets do .. end` block.
+Inside the `aggregates` block, define a `count :count_of_open_tickets, :tickets do .. end` block.
 
 Then inside this block, define a filter like so: `filter expr(status == :open)`
 
