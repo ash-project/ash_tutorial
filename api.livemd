@@ -21,22 +21,9 @@ Mix.install([:ash])
 </div>
 </div>
 
-### In this tutorial you'll create a Registry and an API
+### In this tutorial you'll create your API.
 
-* A **Registry** is a collecion of Resources. It's used to improve compile times and reduce compile-time dependencies.
-* An **API** is a way for you to interact with your resources.
-
-#### Registry
-
-Add an entries block to `Tutorial.Registry`.
-
-<!-- livebook:{"force_markdown":true} -->
-
-```elixir
-entries do
-
-end
-```
+* An **API** is a way for you to interact with your resources. Each resource available is listed in the API.
 
 Then add the entry `entry Tutorial.Profile` inside the block.
 
@@ -48,11 +35,11 @@ Add a resources block to the `Tutorial` module.
 
 ```elixir
 resources do
-
+  
 end
 ```
 
-Then add the registry you just created: `registry Tutorial.Registry`
+Then add your resource inside, with `resource Tutorial.Profile`.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -72,19 +59,11 @@ Then add the registry you just created: `registry Tutorial.Registry`
     end
   end
 
-  defmodule Tutorial.Registry do
-    use Ash.Registry
-
-    entries do
-      entry Tutorial.Profile
-    end
-  end
-
   defmodule Tutorial do
     use Ash.Api
 
     resources do
-      registry Tutorial.Registry
+      resource Tutorial.Profile
     end
   end
   ```
@@ -108,16 +87,12 @@ defmodule Tutorial.Profile do
   end
 end
 
-defmodule Tutorial.Registry do
-  use Ash.Registry
-
-  # <--- Create your entries here
-end
-
 defmodule Tutorial do
   use Ash.Api
 
-  # <--- Create your resources here
+  resources do
+    # <--- Add your resources here
+  end
 end
 ```
 
