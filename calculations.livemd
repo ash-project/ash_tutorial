@@ -66,19 +66,11 @@ end
 ```
 
 ```elixir
-defmodule Tutorial.Accounts.Registry do
-  use Ash.Registry
-
-  entries do
-    entry(Tutorial.Accounts.User)
-  end
-end
-
 defmodule Tutorial.Accounts do
   use Ash.Api
 
   resources do
-    registry(Tutorial.Accounts.Registry)
+    resource Tutorial.Accounts.User
   end
 end
 ```

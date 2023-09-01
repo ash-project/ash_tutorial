@@ -46,19 +46,11 @@ Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
     end
   end
 
-  defmodule Tutorial.Registry do
-    use Ash.Registry
-
-    entries do
-      entry Tutorial.Profile
-    end
-  end
-
   defmodule Tutorial do
     use Ash.Api
 
     resources do
-      registry Tutorial.Registry
+      resource Tutorial.Profile
     end
   end
   ```
@@ -83,19 +75,11 @@ defmodule Tutorial.Profile do
   end
 end
 
-defmodule Tutorial.Registry do
-  use Ash.Registry
-
-  entries do
-    entry(Tutorial.Profile)
-  end
-end
-
 defmodule Tutorial do
   use Ash.Api
 
   resources do
-    registry(Tutorial.Registry)
+    resource Tutorial.Profile
   end
 end
 ```

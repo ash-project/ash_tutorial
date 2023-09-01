@@ -119,19 +119,11 @@ update_timestamp :updated_at
     end
   end
 
-  defmodule Tutorial.Support.Registry do
-    use Ash.Registry
-
-    entries do
-      entry Tutorial.Support.Ticket
-    end
-  end
-
   defmodule Tutorial.Support do
     use Ash.Api
 
     resources do
-      registry Tutorial.Support.Registry
+      resource Tutorial.Support.Ticket
     end
   end
   ```
@@ -162,19 +154,11 @@ defmodule Tutorial.Support.Ticket do
   end
 end
 
-defmodule Tutorial.Support.Registry do
-  use Ash.Registry
-
-  entries do
-    entry(Tutorial.Support.Ticket)
-  end
-end
-
 defmodule Tutorial.Support do
   use Ash.Api
 
   resources do
-    registry(Tutorial.Support.Registry)
+    resource Tutorial.Support.Ticket
   end
 end
 ```

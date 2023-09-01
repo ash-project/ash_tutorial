@@ -25,21 +25,17 @@ Mix.install([:ash])
 
 * An **API** is a way for you to interact with your resources. Each resource available is listed in the API.
 
-Then add the entry `entry Tutorial.Profile` inside the block.
-
 #### API
 
-Add a resources block to the `Tutorial` module.
+Add a resources block to the `Tutorial` module, and add your resource to it.
 
 <!-- livebook:{"force_markdown":true} -->
 
 ```elixir
 resources do
-  
+  resource Tutorial.Profile
 end
 ```
-
-Then add your resource inside, with `resource Tutorial.Profile`.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
