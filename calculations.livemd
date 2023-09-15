@@ -23,7 +23,7 @@ Mix.install([:ash])
 
 [Calculations](https://www.ash-hq.org/docs/guides/ash/latest/topics/calculations#calculations) in Ash allow for displaying complex values as a top level value of a resource.
 
-Create a `full_name` caluclation on the User resource.
+Create a `full_name` calculation on the User resource.
 
 You already have the `first_name` and `last_name` defined, you can get the `full_name` by concatenating them with a space in the middle.
 
