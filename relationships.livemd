@@ -101,15 +101,38 @@ defmodule Tutorial.Support do
   use Ash.Api
 
   resources do
-    resource Tutorial.Support.Ticket
-    resource Tutorial.Support.Representative
+    resource(Tutorial.Support.Ticket)
+    resource(Tutorial.Support.Representative)
   end
 end
 ```
 
 ## Creating a Ticket record with a representative Relationship
 
-Just defining a relationship is not enough to start managing the relationship. This topic is complicated and you will start managing relationships properly in the next tutorial. For example, by default you can't assign a primary key directly. For that you need to define `attribute_writable? true` on the `belongs_to :representative` relationship in the previous code block.
+First, create the representative Joe.
+
+```elixir
+# Creates a Representative
+joe =
+  Tutorial.Support.Representative
+  |> Ash.Changeset.for_create(:create, %{name: "Joe Armstrong"})
+  |> Tutorial.Support.create!()
+```
+
+Next up, create a ticket and assign the representative Joe to the ticket.
+
+```elixir
+# Creates a Ticket with the representative
+Tutorial.Support.Ticket
+|> Ash.Changeset.for_create(:create, %{subject: "My spoon is too big!", representative_id: joe.id})
+|> Tutorial.Support.create!()
+# `load!/2` loads in the representative. Try removing this line to see what changes
+|> Tutorial.Support.load!([:representative])
+```
+
+As you can see it didn't quite work. The `representative_id` was set to `nil`. That is because by default, the primary key isn't directly assignable to the parent.
+
+You can override this behaviour by setting `attribute_writable? true` on the `belongs_to :representative` relationship in the resource definition.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -127,26 +150,11 @@ Just defining a relationship is not enough to start managing the relationship. T
   </div>
 </details>
 
-```elixir
-# Creates a Representative
-joe =
-  Tutorial.Support.Representative
-  |> Ash.Changeset.for_create(:create, %{name: "Joe Armstrong"})
-  |> Tutorial.Support.create!()
-```
+After making the change, try running the code again, you should now see that the representative was correctly assigned.
 
-Try running the following code before and after adding the `attribute_writable?` modification.
+<!-- livebook:{"break_markdown":true} -->
 
-```elixir
-# Creates a Ticket with the representative
-Tutorial.Support.Ticket
-|> Ash.Changeset.for_create(:create, %{subject: "My spoon is too big!", representative_id: joe.id})
-|> Tutorial.Support.create!()
-# `load!/2` loads in the representative. Try removing this line to see what changes
-|> Tutorial.Support.load!([:representative])
-```
-
-Like mentioned, this is a very basic way to manage relationships and the topic is fairly complicated. In the next tutorial you'll manage relationships the idiomatic way.
+This is one way of creating relationships. To see a more idiomatic and succinct way of doing things, follow to next tutorial.
 
 <!-- livebook:{"break_markdown":true} -->
 
