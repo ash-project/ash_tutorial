@@ -30,10 +30,19 @@ The action should:
 * Only accept the `:representative_id`
 * Assign the `representative_id` to the `representative` field.
 
-Do this by adding the following code inside the `:assign` action:
+Since `representative_id` is not an _attribute_ of our resource (it's a relationship), you need a new way of receiving arguments in an action.
+In previous tutorials you used `accept`, but `accept` only knows about attributes.
+
+Instead, you can use an `argument`.
+
+* `argument :representative_id, :uuid, allow_nil?: false`
+
+You don't want to accept any attributes in this action so set `accept` to an empty list like so:
 
 * `accept []`
-* `argument :representative_id, :uuid, allow_nil?: false`
+
+And finally, define the relationship change:
+
 * `change manage_relationship(:representative_id, :representative, type: :append_and_remove)`
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
@@ -49,7 +58,7 @@ Do this by adding the following code inside the `:assign` action:
     argument :representative_id, :uuid, allow_nil?: false
 
     # We use a change here to replace the related Representative
-    # If there is a different representative for this Ticket, it will be changed to the new one
+    # If there already is a different representative for this Ticket, it will be replaced with the new one
     # The Representative itself is not modified in any way
     change manage_relationship(:representative_id, :representative, type: :append_and_remove)
   end
