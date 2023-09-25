@@ -1,7 +1,9 @@
 # Querying
 
 ```elixir
-Mix.install([:ash])
+Application.put_env(:ash, :validate_api_resource_inclusion?, false)
+Application.put_env(:ash, :validate_api_config_inclusion?, false)
+Mix.install([:ash], consolidate_protocols: false)
 ```
 
 ## Querying
@@ -158,7 +160,7 @@ Put the result into the `joe` variable. `read!/1` returns a list, so make sure t
   ```elixir
   require Ash.Query
 
-  [joe] = 
+  [joe] =
     Tutorial.Profile
     |> Ash.Query.filter(name == "Joe Armstrong")
     |> Tutorial.read!()

@@ -1,7 +1,9 @@
 # Calculations
 
 ```elixir
-Mix.install([:ash])
+Application.put_env(:ash, :validate_api_resource_inclusion?, false)
+Application.put_env(:ash, :validate_api_config_inclusion?, false)
+Mix.install([:ash], consolidate_protocols: false)
 ```
 
 ## Calculations
@@ -36,7 +38,7 @@ Then inside this block, add `calculate :full_name, :string, expr(first_name <> "
   <div class="p-4">
 
   ```elixir
-  calculations do 
+  calculations do
     calculate :full_name, :string, expr(first_name <> " " <> last_name)
   end
   ```

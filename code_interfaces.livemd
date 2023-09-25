@@ -1,7 +1,9 @@
 # Code Interfaces
 
 ```elixir
-Mix.install([:ash])
+Application.put_env(:ash, :validate_api_resource_inclusion?, false)
+Application.put_env(:ash, :validate_api_config_inclusion?, false)
+Mix.install([:ash], consolidate_protocols: false)
 ```
 
 ## Code Interfaces
@@ -172,7 +174,7 @@ Call `Tutorial.Support.Ticket.open!/2` with a `subject` and `description` and st
   <div class="p-4">
 
   ```elixir
-  ticket = Tutorial.Support.Ticket.open!("I can't find my hand!", "I think someone stole it.")  
+  ticket = Tutorial.Support.Ticket.open!("I can't find my hand!", "I think someone stole it.")
   ```
 
   </div>

@@ -1,7 +1,9 @@
 # Attributes
 
 ```elixir
-Mix.install([:ash])
+Application.put_env(:ash, :validate_api_resource_inclusion?, false)
+Application.put_env(:ash, :validate_api_config_inclusion?, false)
+Mix.install([:ash], consolidate_protocols: false)
 ```
 
 ## Attributes
@@ -56,9 +58,9 @@ To keep things readable, Attributes can be set in a `do end` block like so:
 
 ```elixir
 attribute :status, :atom do
-  
+
   # ...
-  
+
   allow_nil? false
 end
 ```
@@ -158,7 +160,7 @@ defmodule Tutorial.Support do
   use Ash.Api
 
   resources do
-    resource Tutorial.Support.Ticket
+    resource(Tutorial.Support.Ticket)
   end
 end
 ```

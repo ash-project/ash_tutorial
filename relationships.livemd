@@ -1,7 +1,9 @@
 # Relationships
 
 ```elixir
-Mix.install([:ash])
+Application.put_env(:ash, :validate_api_resource_inclusion?, false)
+Application.put_env(:ash, :validate_api_config_inclusion?, false)
+Mix.install([:ash], consolidate_protocols: false)
 ```
 
 ## Relationships
@@ -45,7 +47,7 @@ Inside the `relationships` block, define a `belongs_to` representative like so:
       # We create `representative_id` automatically.
       belongs_to :representative, Tutorial.Support.Representative
     end
-  
+
   # ...
   ```
 
