@@ -1,4 +1,4 @@
-# Managing Relationships
+# Ash: 9 - Managing Relationships
 
 ```elixir
 Application.put_env(:ash, :validate_api_resource_inclusion?, false)

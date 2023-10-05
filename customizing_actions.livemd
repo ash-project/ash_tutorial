@@ -1,4 +1,4 @@
-# Customizing Actions
+# Ash: 7 - Customizing Actions
 
 ```elixir
 Application.put_env(:ash, :validate_api_resource_inclusion?, false)
