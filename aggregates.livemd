@@ -158,22 +158,34 @@ end
 
 ## Query the Aggregate
 
-Use a [Bulk Action](https://ash-hq.org/docs/guides/ash/2.9.5/topics/bulk-actions#bulk-actions) to create 4 tickets, 3 of which are assigned to joe, and close the last ticket assigned to Joe.
+Use a [Bulk Action](https://ash-hq.org/docs/guides/ash/2.9.5/topics/bulk-actions#bulk-actions) to create 4 tickets, 3 of which are assigned to Joe.
 
 ```elixir
 # Create a representative
 joe = Tutorial.Support.Representative.create!("Joe Armstrong")
 
 # Bulk create 4 tickets, 3 of which are assigned to Joe
-[_, _, _, last_ticket] =
-  [
-    %{subject: "I can't see my eyes!"},
-    %{subject: "I can't find my hand!", representative_id: joe.id},
-    %{subject: "My fridge is flying away!", representative_id: joe.id},
-    %{subject: "My bed is invisible!", representative_id: joe.id}
-  ]
-  |> Tutorial.Support.bulk_create(Tutorial.Support.Ticket, :open, return_records?: true)
-  |> Map.get(:records)
+[
+  %{subject: "I can't see my eyes!"},
+  %{subject: "I can't find my hand!", representative_id: joe.id},
+  %{subject: "My fridge is flying away!", representative_id: joe.id},
+  %{subject: "My bed is invisible!", representative_id: joe.id}
+]
+|> Tutorial.Support.bulk_create(Tutorial.Support.Ticket, :open, return_records?: true)
+```
+
+Close the last ticket assigned to Joe.
+
+```elixir
+require Ash.Query
+
+# Retrieve the last ticket
+[last_ticket] =
+  Tutorial.Support.Ticket
+  |> Ash.Query.filter(representative_id == ^joe.id)
+  |> Ash.Query.sort(created_at: :desc)
+  |> Ash.Query.limit(1)
+  |> Tutorial.Support.read!()
 
 # Close the last ticket
 Tutorial.Support.Ticket.close!(last_ticket)
