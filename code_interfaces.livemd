@@ -26,7 +26,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ### In this tutorial you will add a Code Interface
 
 In previous tutorials you always used `Changesets` directly to CRUD on resources.
-While this is a perfectly valid way of handling CRUD operations, Ash provides [Code Interfaces](https://ash-hq.org/docs/guides/ash/2.9.6/topics/code-interface) to make this more ergonomic for you.
+While this is a perfectly valid way of handling CRUD operations, Ash provides [Code Interfaces](https://hexdocs.pm/ash/code-interface.html) to make this more ergonomic for you.
 The code interface can be defined on the resources *or* the domain. In this example, we will define it on the domain.
 
 You will add 3 code interfaces for:

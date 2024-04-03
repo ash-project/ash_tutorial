@@ -23,7 +23,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 </div>
 </div>
 
-[Calculations](https://www.ash-hq.org/docs/guides/ash/latest/topics/calculations#calculations) in Ash allow for displaying complex values as a top level value of a resource.
+[Calculations](https://hexdocs.pm/ash/calculations.html) in Ash allow for displaying complex values as a top level value of a resource.
 
 Create a `full_name` calculation on the User resource.
 
@@ -95,7 +95,7 @@ Tutorial.Accounts.User
 |> Ash.load!([:full_name])
 ```
 
-This is the most basic example of a calculation. Note that calculations allow you to do any arbitrary operation on the Resource. More on this inside the [documentation](https://www.ash-hq.org/docs/guides/ash/latest/topics/calculations#calculations).
+This is the most basic example of a calculation. Note that calculations allow you to do any arbitrary operation on the Resource. More on this inside the [documentation](https://hexdocs.pm/ash/calculations.html).
 
 <!-- livebook:{"break_markdown":true} -->
 

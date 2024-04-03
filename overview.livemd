@@ -16,7 +16,7 @@ Each tutorial builds on top of the previous one, it is therefore recommended to 
 
 The best way to follow the tutorial is reading the instructions in the tutorial, coming up with your own solution, and then **verifying with the proposed solution**. It is also recommended to **not copy paste** code.
 
-The goal of this tutorial is to get you familiar with the basic concepts of Ash, and give you a good sense of what's possible. It serves as a primer for the [Ash documentation](https://ash-hq.org/docs/guides/ash/latest/tutorials/get-started). Feel free to consult this documentation alongside the tutorial to learn more. That being said, the documenation shouldn't be necessary to complete the tutorial.
+The goal of this tutorial is to get you familiar with the basic concepts of Ash, and give you a good sense of what's possible. It serves as a primer for the [Ash documentation](https://hexdocs.pm/ash/get-started.html). Feel free to consult this documentation alongside the tutorial to learn more. That being said, the documenation shouldn't be necessary to complete the tutorial.
 
 Have fun!
 

@@ -106,7 +106,7 @@ Tutorial.Profile
 |> Ash.Changeset.for_create(:create, %{name: "My Name"})
 ```
 
-To learn more about actions, read the [section on Actions in the documentation](https://ash-hq.org/docs/guides/ash/2.9.6/topics/actions)
+To learn more about actions, read the [section on Actions in the documentation](https://hexdocs.pm/ash/actions.html)
 
 <!-- livebook:{"break_markdown":true} -->
 

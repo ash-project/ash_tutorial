@@ -25,7 +25,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 
 ### In this tutorial you will add data persistence to the Profile resource
 
-Add the [ETS data layer](https://ash-hq.org/docs/dsl/ash-resource#ets) `data_layer: Ash.DataLayer.Ets` in the Profile resource like so:
+Add the [ETS data layer](https://hexdocs.pm/ash/dsl-ash-datalayer-ets.html#ets) `data_layer: Ash.DataLayer.Ets` in the Profile resource like so:
 
 <!-- livebook:{"force_markdown":true} -->
 

@@ -164,7 +164,7 @@ ticket
 |> Ash.update!()
 ```
 
-This is a relatively simple example of how to manage a relationship, but in real world applications your relationships can get quite complex. To learn more about this topic, visit the [Managing Relationships](https://ash-hq.org/docs/guides/ash/2.9.5/topics/managing-relationships#managing-relationships) section in the documentation.
+This is a relatively simple example of how to manage a relationship, but in real world applications your relationships can get quite complex. To learn more about this topic, visit the [Managing Relationships](https://hexdocs.pm/ash/managing-relationships.html) section in the documentation.
 
 <!-- livebook:{"break_markdown":true} -->
 

@@ -73,7 +73,7 @@ To set the default, you use `default :open`.
 
 #### Keeping track of Created and Updated
 
-Ash provides [create_timestamp](https://ash-hq.org/docs/dsl/ash-resource#attributes-create_timestamp) and [update_timestamp](https://ash-hq.org/docs/dsl/ash-resource#attributes-update_timestamp) to keep track of when the Resource was first created, and when it was last updated.
+Ash provides [create_timestamp](https://hexdocs.pm/ash/dsl-ash-resource.html#attributes-create_timestamp) and [update_timestamp](https://hexdocs.pm/ash/dsl-ash-resource.html#attributes-update_timestamp) to keep track of when the Resource was first created, and when it was last updated.
 
 Add the following to the attributes block:
 

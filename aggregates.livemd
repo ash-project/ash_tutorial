@@ -25,7 +25,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 
 ### In this tutorial you will add an Aggregate on a Resource
 
-[Aggregates](https://ash-hq.org/docs/guides/ash/2.9.6/topics/aggregates#aggregates) in Ash allow for retrieving summary information over groups of related data. Aggregates can be either _count_, _first_, _sum_ or _list_.
+[Aggregates](https://hexdocs.pm/ash/aggregates.html) in Ash allow for retrieving summary information over groups of related data. Aggregates can be either _count_, _first_, _sum_ or _list_.
 
 Implement a count aggregate on the 'open tickets' a representative is assigned to.
 
@@ -161,7 +161,7 @@ end
 
 ## Query the Aggregate
 
-Use a [Bulk Action](https://ash-hq.org/docs/guides/ash/2.9.5/topics/bulk-actions#bulk-actions) to create 4 tickets, 3 of which are assigned to Joe.
+Use a [Bulk Action](https://hexdocs.pm/ash/bulk-actions.html) to create 4 tickets, 3 of which are assigned to Joe.
 
 ```elixir
 # Create a representative
