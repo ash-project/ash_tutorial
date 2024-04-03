@@ -10,7 +10,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 
 In this tutorial you will create Ash Resources, query on them and use ETS as your data storage. You won't be building an overarching application, instead you'll build Resources that introduce you to Ash concepts.
 
-This tutorial has been updated for the Ash 3.0 release candidates.
+**IMPORTANT: This tutorial has been updated for the Ash 3.0 release candidates.**
 
 Each tutorial builds on top of the previous one, it is therefore recommended to start the tutorial **sequentially from the beginning** as each section introduces new concepts that will later be used.
 
