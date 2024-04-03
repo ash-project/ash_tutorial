@@ -1,9 +1,9 @@
 # Ash: 1 - Resources
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Create a Profile Resource
@@ -25,6 +25,9 @@ Mix.install([:ash], consolidate_protocols: false)
 
 First define the `Tutorial.Profile` module as a **Resource** with the `use Ash.Resource` macro.
 
+You also need to configure an `Ash.Domain` module that the resource will use. You can read more about this in
+the section on domains. So you end up with `use Ash.Resource, domain: YourDomain`
+
 Next, add some attributes. This is done in an **attributes** block inside the module:
 
 <!-- livebook:{"force_markdown":true} -->
@@ -45,7 +48,8 @@ Also define a name by adding `attribute :name, :string`
 
   ```elixir
   defmodule Tutorial.Profile do
-    use Ash.Resource
+    use Ash.Resource,
+      domain: Tutorial
 
     attributes do
       uuid_primary_key :id
@@ -61,6 +65,15 @@ Also define a name by adding `attribute :name, :string`
 
 ```elixir
 defmodule Tutorial.Profile do
+end
+
+
+defmodule Tutorial do
+  use Ash.Domain
+
+  resources do
+    resource Tutorial.Profile
+  end
 end
 ```
 

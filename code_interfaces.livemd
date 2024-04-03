@@ -1,9 +1,9 @@
 # Ash: 10 - Code Interfaces
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Code Interfaces
@@ -27,6 +27,7 @@ Mix.install([:ash], consolidate_protocols: false)
 
 In previous tutorials you always used `Changesets` directly to CRUD on resources.
 While this is a perfectly valid way of handling CRUD operations, Ash provides [Code Interfaces](https://ash-hq.org/docs/guides/ash/2.9.6/topics/code-interface) to make this more ergonomic for you.
+The code interface can be defined on the resources *or* the domain. In this example, we will define it on the domain.
 
 You will add 3 code interfaces for:
 
@@ -34,37 +35,36 @@ You will add 3 code interfaces for:
 * Opening a ticket
 * Assigning a representative
 
-Add a `code_interface do ... end` block to both the `Ticket` and `Representative` resource.
+For each resource you want to add a code interface to, inside that resource definition on the domain, you will place "definitions".
+For example:
 
-Inside each of these `code_interface` blocks, add `define_for Tutorial.Support`.
+```elixir
+resource MyApp.Tweet do
+  define :create_tweet, args: [:content]
+end
+```
 
-Then add the 3 interfaces by defining the following inside the `Ticket` resource `code_interface` block.
+Then add the 3 interfaces by defining the following inside the `Ticket` resource's block:
 
-* `define :assign, args: [:representative_id]`
-* `define :open, args: [:subject, :description]`
+* `define :assign_ticket, args: [:representative_id], action: :assign`
+* `define :open_ticket, args: [:subject, :description], action: :open`
 
-And the following inside the `Representative` `code_interface` block.
+And the following inside the `Representative` resource's block.
 
-* `define :create, args: [:name]`
+* `define :create_ticket, args: [:name], action: :create`
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
   <div class="p-4">
 
   ```elixir
-  # Ticket
-  code_interface do
-    define_for Tutorial.Support
-
-    define :assign, args: [:representative_id]
-    define :open, args: [:subject, :description]
+  resource Tutorial.Support.Ticket do
+    define :assign_ticket, args: [:representative_id], action: :assign
+    define :open_ticket, args: [:subject, :description], action: :open
   end
 
-  # Representative
-  code_interface do
-    define_for Tutorial.Support
-
-    define :create, args: [:name]
+  resource Tutorial.Support.Representative do
+    define :create_representative, args: [:name], action: :create
   end
   ```
 
@@ -76,68 +76,76 @@ And the following inside the `Representative` `code_interface` block.
 ```elixir
 defmodule Tutorial.Support.Ticket do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults([:read, :update])
-    create(:open, do: accept([:subject, :description]))
+    defaults [:read]
+
+    create :open do
+      accept [:subject, :description]
+    end
 
     update :close do
-      accept([])
-      change(set_attribute(:status, :closed))
+      change set_attribute(:status, :closed)
     end
 
     update :assign do
-      accept([])
-      argument(:representative_id, :uuid, allow_nil?: false)
-      change(manage_relationship(:representative_id, :representative, type: :append_and_remove))
+      argument :representative_id, :uuid, allow_nil?: false
+      change manage_relationship(:representative_id, :representative, type: :append_and_remove)
     end
   end
 
   attributes do
-    uuid_primary_key(:id)
-    attribute(:subject, :string, allow_nil?: false)
-    attribute(:description, :string, allow_nil?: true)
+    uuid_primary_key :id
+    attribute :subject, :string, allow_nil?: false
+    attribute :description, :string, allow_nil?: true
 
     attribute :status, :atom do
-      constraints(one_of: [:open, :closed])
-      default(:open)
-      allow_nil?(false)
+      constraints one_of: [:open, :closed]
+      default :open
+      allow_nil? false
     end
 
-    create_timestamp(:created_at)
-    update_timestamp(:updated_at)
+    create_timestamp :created_at
+    update_timestamp :updated_at
   end
 
   relationships do
-    belongs_to(:representative, Tutorial.Support.Representative)
+    belongs_to :representative, Tutorial.Support.Representative
   end
-
-  # <-- Add code_interface here
 end
 
 defmodule Tutorial.Support.Representative do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
-  actions(do: defaults([:create, :read, :update, :destroy]))
+  actions do
+    defaults [:read]
 
-  attributes do
-    uuid_primary_key(:id)
-    attribute(:name, :string)
+    create :create do
+      accept [:name]
+    end
   end
 
-  # <-- Add code_interface here
+  attributes do
+    uuid_primary_key :id
+    attribute :name, :string
+  end
 end
-```
 
-```elixir
 defmodule Tutorial.Support do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
-    resource Tutorial.Support.Ticket
-    resource Tutorial.Support.Representative
+    resource Tutorial.Support.Ticket do
+      # <-- Add ticket code interface here
+    end
+
+    resource Tutorial.Support.Representative do
+      # <-- Add representative code interface here
+    end
   end
 end
 ```
@@ -146,7 +154,7 @@ end
 
 Create a Representative, but instead of using a changeset, use the code interface you created.
 
-You can use a code interface by calling `Tutorial.Support.Representative.create!/1` with the desired name.
+You can use a code interface by calling `Tutorial.Support.create_representative!/1` with the desired name.
 
 Set the name to `Joe Armstrong` and store it in a `joe` variable.
 
@@ -155,7 +163,7 @@ Set the name to `Joe Armstrong` and store it in a `joe` variable.
   <div class="p-4">
 
   ```elixir
-  joe = Tutorial.Support.Representative.create!("Joe Armstrong")
+  joe = Tutorial.Support.create_representative!("Joe Armstrong")
   ```
 
   </div>
@@ -167,14 +175,14 @@ Set the name to `Joe Armstrong` and store it in a `joe` variable.
 
 Create a Ticket with the created code interface.
 
-Call `Tutorial.Support.Ticket.open!/2` with a `subject` and `description` and store the result in a `ticket` variable.
+Call `Tutorial.Support.open_ticket!/2` with a `subject` and `description` and store the result in a `ticket` variable.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
   <div class="p-4">
 
   ```elixir
-  ticket = Tutorial.Support.Ticket.open!("I can't find my hand!", "I think someone stole it.")
+  ticket = Tutorial.Support.open_ticket!("I can't find my hand!", "I think someone stole it.")
   ```
 
   </div>
@@ -186,14 +194,14 @@ Call `Tutorial.Support.Ticket.open!/2` with a `subject` and `description` and st
 
 Assign the Representative `joe` to the Ticket using the code Interface.
 
-Use `Tutorial.Support.Ticket.assign!/2`.
+Use `Tutorial.Support.assign_ticket!/2`.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
   <div class="p-4">
 
   ```elixir
-  Tutorial.Support.Ticket.assign!(ticket, joe.id)
+  Tutorial.Support.assign_ticket!(ticket, joe.id)
   ```
 
   </div>

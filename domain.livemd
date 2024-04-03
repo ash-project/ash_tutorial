@@ -1,12 +1,12 @@
-# Ash: 3 - API
+# Ash: 3 - Domain
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
-## Create an API
+## Create a Domain
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
@@ -23,11 +23,11 @@ Mix.install([:ash], consolidate_protocols: false)
 </div>
 </div>
 
-### In this tutorial you'll create your API.
+### In this tutorial you'll create your Domain.
 
-* An **API** is a way for you to interact with your resources. Each resource available is listed in the API.
+A domain groups related resources together, and is a place for shared configuration that applies to all of its resources.
 
-#### API
+#### Domain
 
 Add a resources block to the `Tutorial` module, and add your resource to it.
 
@@ -45,7 +45,8 @@ end
 
   ```elixir
   defmodule Tutorial.Profile do
-    use Ash.Resource
+    use Ash.Resource,
+      domain: Tutorial
 
     actions do
       defaults [:create]
@@ -58,7 +59,7 @@ end
   end
 
   defmodule Tutorial do
-    use Ash.Api
+    use Ash.Domain
 
     resources do
       resource Tutorial.Profile
@@ -86,7 +87,7 @@ defmodule Tutorial.Profile do
 end
 
 defmodule Tutorial do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
     # <--- Add your resources here
@@ -98,12 +99,12 @@ end
 
 <!-- livebook:{"break_markdown":true} -->
 
-If everything is configured correctly, you can now call `create!/1` to create a Profile.
+If everything is configured correctly, you can now call `Ash.create!/1` to create a Profile.
 
 ```elixir
 Tutorial.Profile
 |> Ash.Changeset.for_create(:create, %{name: "My Name"})
-|> Tutorial.create!()
+|> Ash.create!()
 ```
 
 Note that this Profile is not being persisted yet to any database. For that we need to set up a data layer.

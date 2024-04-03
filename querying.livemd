@@ -1,9 +1,9 @@
 # Ash: 5 - Querying
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Querying
@@ -27,7 +27,7 @@ Mix.install([:ash], consolidate_protocols: false)
 
 But first you need to enable all basic **CRUD** operations.
 
-Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
+Do this by adding default `:read` and `:destroy` actions, as well as `:create` and `:update` actions that accept `[:name]`.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -36,10 +36,19 @@ Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
   ```elixir
   defmodule Tutorial.Profile do
     use Ash.Resource,
+      domain: Tutorial,
       data_layer: Ash.DataLayer.Ets
 
     actions do
-      defaults [:create, :read, :update, :destroy]
+      defaults [:read, :destroy]
+
+      create :create do
+        accept [:name]
+      end
+
+      update :update do
+        accept [:name]
+      end
     end
 
     attributes do
@@ -49,7 +58,7 @@ Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
   end
 
   defmodule Tutorial do
-    use Ash.Api
+    use Ash.Domain
 
     resources do
       resource Tutorial.Profile
@@ -65,20 +74,21 @@ Do this by adding the `:read`, `:update` and `:destroy` action to your actions.
 ```elixir
 defmodule Tutorial.Profile do
   use Ash.Resource,
+    domain: Tutorial,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults([:create])
+    defaults [:create]
   end
 
   attributes do
-    uuid_primary_key(:id)
-    attribute(:name, :string)
+    uuid_primary_key :id
+    attribute :name, :string
   end
 end
 
 defmodule Tutorial do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
     resource Tutorial.Profile
@@ -96,7 +106,7 @@ Add 2 Profiles to the database.
 You can create a `Profile` by:
 
 * Creating a Changeset with `Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})`,
-* Then giving the changeset to `Tutorial.create!()`.
+* Then giving the changeset to `Ash.create!()`.
 
 *Hint: Use a pipeline*
 
@@ -107,7 +117,7 @@ You can create a `Profile` by:
   ```elixir
   Tutorial.Profile
   |> Ash.Changeset.for_create(:create, %{name: "The Name"})
-  |> Tutorial.create!()
+  |> Ash.create!()
   ```
 
   </div>
@@ -123,7 +133,7 @@ You can create a `Profile` by:
 
 Now, read all the generated Profiles.
 
-Call `Tutorial.read!/1` with the `Tutorial.Profile` module.
+Call `Ash.read!/1` with the `Tutorial.Profile` module.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -131,7 +141,7 @@ Call `Tutorial.read!/1` with the `Tutorial.Profile` module.
 
   ```elixir
   Tutorial.Profile
-  |> Tutorial.read!()
+  |> Ash.read!()
   ```
 
   </div>
@@ -151,7 +161,7 @@ First you'll need to `require Ash.Query`
 
 Then call `Ash.Query.filter(name == "Joe Armstrong")` with the `Tutorial.Profile`.
 
-Put the result into the `joe` variable. `read!/1` returns a list, so make sure to extract the single returned value out of that list.
+Put the result into the `joe` variable. `Ash.read!/1` returns a list, so make sure to extract the single returned value out of that list.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -163,7 +173,7 @@ Put the result into the `joe` variable. `read!/1` returns a list, so make sure t
   [joe] =
     Tutorial.Profile
     |> Ash.Query.filter(name == "Joe Armstrong")
-    |> Tutorial.read!()
+    |> Ash.read!()
   ```
 
   </div>
@@ -187,7 +197,7 @@ You can do this by providing the `Ash.Changeset.for_update/3` with:
 * the `:update` atom
 * a map of the values you want to change, in this case `%{name: "Neil Armstrong"}`
 
-Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
+Then apply the changeset by calling `Ash.update!/1` with the changeset.
 
 *Hint: Using a pipeline might be a good idea.*
 
@@ -198,7 +208,7 @@ Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
   ```elixir
   joe
   |> Ash.Changeset.for_update(:update, %{name: "Neil Armstrong"})
-  |> Tutorial.update!()
+  |> Ash.update!()
   ```
 
   </div>
@@ -214,14 +224,14 @@ Then apply the changeset by calling `Tutorial.update!/1` with the changeset.
 
 Finally, remove `joe` from the database.
 
-Do this using the `Tutorial.destroy!/1` function.
+Do this using the `Ash.destroy!/1` function.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
   <div class="p-4">
 
   ```elixir
-  Tutorial.destroy!(joe)
+  Ash.destroy!(joe)
   ```
 
   </div>

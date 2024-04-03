@@ -1,9 +1,9 @@
 # Ash: 7 - Customizing Actions
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Customizing Actions
@@ -34,7 +34,8 @@ Custom actions allow you to attach *semantics* to actions.
 
 In addition, you can customize the behaviour of these actions. For example, closing a ticket only sets the status to `:closed`.
 
-It also allows you to define what are acceptable arguments. For example for the `:open` action, you can only allow the `:subject` and `:description` to be set. It does not make sense to set the `:status` in this case as it should always be `:open`. For the closing action you won't allow any arguments.
+It also allows you to define what attributes can be set when calling that action. For example for the `:open` action, you can only allow the `:subject` and `:description` to be set.
+It does not make sense to set the `:status` in this case as it should always be `:open`. For the closing action you won't allow any attributes to be set.
 
 Custom actions go inside the `actions do ... end` block.
 
@@ -71,6 +72,7 @@ That's it, you defined your first custom actions.
   ```elixir
   defmodule Tutorial.Support.Ticket do
     use Ash.Resource,
+      domain: Tutorial.Support,
       data_layer: Ash.DataLayer.Ets
 
     actions do
@@ -109,7 +111,7 @@ That's it, you defined your first custom actions.
   end
 
   defmodule Tutorial.Support do
-    use Ash.Api
+    use Ash.Domain
 
     resources do
       resource Tutorial.Support.Ticket
@@ -125,6 +127,7 @@ That's it, you defined your first custom actions.
 ```elixir
 defmodule Tutorial.Support.Ticket do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
@@ -134,22 +137,22 @@ defmodule Tutorial.Support.Ticket do
   attributes do
     uuid_primary_key(:id)
 
-    attribute(:subject, :string, allow_nil?: false)
-    attribute(:description, :string)
+    attribute :subject, :string, allow_nil?: false
+    attribute :description, :string
 
     attribute :status, :atom do
-      constraints(one_of: [:open, :closed])
-      default(:open)
-      allow_nil?(false)
+      constraints one_of: [:open, :closed]
+      default :open
+      allow_nil? false
     end
 
-    create_timestamp(:created_at)
-    update_timestamp(:updated_at)
+    create_timestamp :created_at
+    update_timestamp :updated_at
   end
 end
 
 defmodule Tutorial.Support do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
     resource Tutorial.Support.Ticket
@@ -170,7 +173,7 @@ Remember, when creating a resource, use a changeset (`Ash.Changeset.for_create/3
   ```elixir
   Tutorial.Support.Ticket
   |> Ash.Changeset.for_create(:open, %{subject: "My Subject"})
-  |> Tutorial.Support.create!()
+  |> Ash.create!()
   ```
 
   </div>
@@ -185,7 +188,7 @@ Try setting the `:status` to `:closed` and see if it works.
   ```elixir
   Tutorial.Support.Ticket
   |> Ash.Changeset.for_create(:open, %{subject: "My Subject", status: :closed})
-  |> Tutorial.Support.create!()
+  |> Ash.create!()
   ```
 
   </div>
@@ -217,7 +220,7 @@ Create a Ticket and store it in the `ticket` variable.
   ticket =
     Tutorial.Support.Ticket
     |> Ash.Changeset.for_create(:open, %{subject: "My Subject"})
-    |> Tutorial.Support.create!()
+    |> Ash.create!()
   ```
 
   </div>
@@ -244,7 +247,7 @@ To update use `Tutorial.Support.update!/1`.
   ```elixir
   ticket
   |> Ash.Changeset.for_update(:close)
-  |> Tutorial.Support.update!()
+  |> Ash.update!()
   ```
 
   </div>

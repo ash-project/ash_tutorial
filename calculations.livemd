@@ -1,9 +1,9 @@
 # Ash: 12 - Calculations
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Calculations
@@ -18,7 +18,7 @@ Mix.install([:ash], consolidate_protocols: false)
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
 <div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<a class="flex mr-2" style="color: #61758a;" href="domain.livemd">Domain</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -51,10 +51,15 @@ Then inside this block, add `calculate :full_name, :string, expr(first_name <> "
 ```elixir
 defmodule Tutorial.Accounts.User do
   use Ash.Resource,
+    domain: Tutorial.Accounts,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults([:create, :read])
+    defaults([:read])
+
+    create :create do
+      accept([:first_name, :last_name])
+    end
   end
 
   attributes do
@@ -63,16 +68,18 @@ defmodule Tutorial.Accounts.User do
     attribute(:last_name, :string, allow_nil?: false)
   end
 
-  # <- Add the calculation here
+  calculations do
+    calculate(:full_name, :string, expr(first_name <> " " <> last_name))
+  end
 end
 ```
 
 ```elixir
 defmodule Tutorial.Accounts do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
-    resource Tutorial.Accounts.User
+    resource(Tutorial.Accounts.User)
   end
 end
 ```
@@ -85,7 +92,7 @@ Create a User and load in the `full_name`
 Tutorial.Accounts.User
 |> Ash.Changeset.for_create(:create, %{first_name: "Joe", last_name: "Armstrong"})
 |> Tutorial.Accounts.create!()
-|> Tutorial.Accounts.load!([:full_name])
+|> Ash.load!([:full_name])
 ```
 
 This is the most basic example of a calculation. Note that calculations allow you to do any arbitrary operation on the Resource. More on this inside the [documentation](https://www.ash-hq.org/docs/guides/ash/latest/topics/calculations#calculations).
@@ -102,7 +109,7 @@ This is the most basic example of a calculation. Note that calculations allow yo
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
 <div class="flex hidden">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<a class="flex mr-2" style="color: #61758a;" href="domain.livemd">Domain</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>

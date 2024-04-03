@@ -1,9 +1,10 @@
 # Ash: 2 - Actions
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Create an Action
@@ -18,7 +19,7 @@ Mix.install([:ash], consolidate_protocols: false)
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
 <div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="api.livemd">API</a>
+<a class="flex mr-2" style="color: #61758a;" href="domain.livemd">Domain</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -39,7 +40,7 @@ end
 
 Inside this action block you can define any type of actions you can think of, including all **CRUD** actions.
 
-For now, add a default `:create` action by adding `defaults [:create]`
+For now, add a simple create action, that accepts the `:name` attribute as input.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -47,10 +48,13 @@ For now, add a default `:create` action by adding `defaults [:create]`
 
   ```elixir
   defmodule Tutorial.Profile do
-    use Ash.Resource
+    use Ash.Resource,
+      domain: Tutorial
 
     actions do
-      defaults [:create]
+      create :create do
+        accept [:name]
+      end
     end
 
     attributes do
@@ -67,13 +71,26 @@ For now, add a default `:create` action by adding `defaults [:create]`
 
 ```elixir
 defmodule Tutorial.Profile do
-  use Ash.Resource
+  use Ash.Resource,
+    domain: Tutorial
 
   # <--- Create your action here
 
   attributes do
-    uuid_primary_key(:id)
-    attribute(:name, :string)
+    uuid_primary_key :id
+    attribute :name, :string
+  end
+end
+```
+
+### Add the Resource to the Domain
+
+```elixir
+defmodule Tutorial do
+  use Ash.Domain
+
+  resources do
+    resource　Tutorial.Profile
   end
 end
 ```
@@ -103,7 +120,7 @@ To learn more about actions, read the [section on Actions in the documentation](
 <a class="flex ml-2" style="color: #61758a;" href="./overview.livemd">Home</a>
 </div>
 <div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="./api.livemd">API</a>
+<a class="flex mr-2" style="color: #61758a;" href="./domain.livemd">Domain</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>

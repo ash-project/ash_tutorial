@@ -1,9 +1,9 @@
 # Ash: 9 - Managing Relationships
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Managing Relationships
@@ -74,37 +74,41 @@ And finally, define the relationship change:
 ```elixir
 defmodule Tutorial.Support.Ticket do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults([:read, :update])
-    create(:open, do: accept([:subject, :description]))
+    defaults [:read]
+
+    create :open do
+      accept [:subject, :description]
+    end
 
     update :close do
-      accept([])
-      change(set_attribute(:status, :closed))
+      accept []
+      change set_attribute(:status, :closed)
     end
 
     # <--- Add the assign action here
   end
 
   attributes do
-    uuid_primary_key(:id)
-    attribute(:subject, :string, allow_nil?: false)
-    attribute(:description, :string)
+    uuid_primary_key :id
+    attribute :subject, :string, allow_nil?: false
+    attribute :description, :string
 
     attribute :status, :atom do
-      constraints(one_of: [:open, :closed])
-      default(:open)
-      allow_nil?(false)
+      constraints one_of: [:open, :closed]
+      default :open
+      allow_nil? false
     end
 
-    create_timestamp(:created_at)
-    update_timestamp(:updated_at)
+    create_timestamp :created_at
+    update_timestamp :updated_at
   end
 
   relationships do
-    belongs_to(:representative, Tutorial.Support.Representative)
+    belongs_to :representative, Tutorial.Support.Representative
   end
 end
 
@@ -123,7 +127,7 @@ end
 
 ```elixir
 defmodule Tutorial.Support do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
     resource Tutorial.Support.Ticket
@@ -140,7 +144,7 @@ Create a Representative:
 joe =
   Tutorial.Support.Representative
   |> Ash.Changeset.for_create(:create, %{name: "Joe Armstrong"})
-  |> Tutorial.Support.create!()
+  |> Ash.create!()
 ```
 
 Create a Ticket:
@@ -149,7 +153,7 @@ Create a Ticket:
 ticket =
   Tutorial.Support.Ticket
   |> Ash.Changeset.for_create(:open, %{subject: "I can't find my hand!"})
-  |> Tutorial.Support.create!()
+  |> Ash.create!()
 ```
 
 Assign the Representative to the Ticket:
@@ -157,7 +161,7 @@ Assign the Representative to the Ticket:
 ```elixir
 ticket
 |> Ash.Changeset.for_update(:assign, %{representative_id: joe.id})
-|> Tutorial.Support.update!()
+|> Ash.update!()
 ```
 
 This is a relatively simple example of how to manage a relationship, but in real world applications your relationships can get quite complex. To learn more about this topic, visit the [Managing Relationships](https://ash-hq.org/docs/guides/ash/2.9.5/topics/managing-relationships#managing-relationships) section in the documentation.

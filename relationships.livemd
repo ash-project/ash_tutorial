@@ -1,9 +1,9 @@
 # Ash: 8 - Relationships
 
 ```elixir
-Application.put_env(:ash, :validate_api_resource_inclusion?, false)
-Application.put_env(:ash, :validate_api_config_inclusion?, false)
-Mix.install([:ash], consolidate_protocols: false)
+Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
+Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
 ## Relationships
@@ -59,25 +59,30 @@ Inside the `relationships` block, define a `belongs_to` representative like so:
 ```elixir
 defmodule Tutorial.Support.Ticket do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults([:create, :read])
+    defaults [:read]
+
+    create :create do
+      accept [:subject, :description, :status]
+    end
   end
 
   attributes do
-    uuid_primary_key(:id)
-    attribute(:subject, :string, allow_nil?: false)
-    attribute(:description, :string)
+    uuid_primary_key :id
+    attribute :subject, :string, allow_nil?: false
+    attribute :description, :string
 
     attribute :status, :atom do
-      constraints(one_of: [:open, :closed])
-      default(:open)
-      allow_nil?(false)
+      constraints one_of: [:open, :closed]
+      default :open
+      allow_nil? false
     end
 
-    create_timestamp(:created_at)
-    update_timestamp(:updated_at)
+    create_timestamp :created_at
+    update_timestamp :updated_at
   end
 
   # <-- Add the relationship here
@@ -85,10 +90,15 @@ end
 
 defmodule Tutorial.Support.Representative do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults([:create, :read])
+    defaults [:read]
+
+    create :create do
+      accept [:name]
+    end
   end
 
   attributes do
@@ -100,11 +110,11 @@ end
 
 ```elixir
 defmodule Tutorial.Support do
-  use Ash.Api
+  use Ash.Domain
 
   resources do
-    resource(Tutorial.Support.Ticket)
-    resource(Tutorial.Support.Representative)
+    resource Tutorial.Support.Ticket
+    resource Tutorial.Support.Representative
   end
 end
 ```
@@ -118,7 +128,7 @@ First, create the representative Joe.
 joe =
   Tutorial.Support.Representative
   |> Ash.Changeset.for_create(:create, %{name: "Joe Armstrong"})
-  |> Tutorial.Support.create!()
+  |> Ash.create!()
 ```
 
 Next up, create a ticket and assign the representative Joe to the ticket.
@@ -127,36 +137,13 @@ Next up, create a ticket and assign the representative Joe to the ticket.
 # Creates a Ticket with the representative
 Tutorial.Support.Ticket
 |> Ash.Changeset.for_create(:create, %{subject: "My spoon is too big!", representative_id: joe.id})
-|> Tutorial.Support.create!()
+|> Ash.create!()
 # `load!/2` loads in the representative. Try removing this line to see what changes
-|> Tutorial.Support.load!([:representative])
+|> Ash.load!([:representative])
 ```
 
-As you can see it didn't quite work. The `representative_id` was set to `nil`. That is because by default, the primary key isn't directly assignable to the parent.
-
-You can override this behaviour by setting `attribute_writable? true` on the `belongs_to :representative` relationship in the resource definition.
-
-<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
-  <div class="p-4">
-
-  ```elixir
-  relationships do
-    belongs_to :representative, Tutorial.Support.Representative do
-      # With the following modification the attribute can be written to, during the :create action:
-      attribute_writable? true
-    end
-  end
-  ```
-
-  </div>
-</details>
-
-After making the change, try running the code again, you should now see that the representative was correctly assigned.
-
-<!-- livebook:{"break_markdown":true} -->
-
-This is one way of creating relationships. To see a more idiomatic and succinct way of doing things, follow to next tutorial.
+As you can see it didn't quite work. The `representative_id` is not accepted by the create action on `Tutorial.Support.Ticket`. If you add `:representative_id` to that list,
+and try again you should now see that the representative was correctly assigned.
 
 <!-- livebook:{"break_markdown":true} -->
 
