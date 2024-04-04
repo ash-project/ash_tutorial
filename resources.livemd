@@ -85,7 +85,8 @@ Changesets are used to **create** and **update** data in Ash. Note that without 
 
 ```elixir
 Tutorial.Profile
-|> Ash.Changeset.new(%{name: "My Name"})
+|> Ash.Changeset.new()
+|> Ash.Changeset.change_attribute(:name, "My Name")
 ```
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
