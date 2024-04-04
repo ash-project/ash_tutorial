@@ -65,6 +65,7 @@ Also define a name by adding `attribute :name, :string`
 
 ```elixir
 defmodule Tutorial.Profile do
+  # <- Add your code here
 end
 
 
@@ -85,7 +86,8 @@ Changesets are used to **create** and **update** data in Ash. Note that without 
 
 ```elixir
 Tutorial.Profile
-|> Ash.Changeset.new(%{name: "My Name"})
+|> Ash.Changeset.new()
+|> Ash.Changeset.change_attributes(%{name: "John Doe"})
 ```
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
