@@ -90,7 +90,7 @@ defmodule Tutorial do
   use Ash.Domain
 
   resources do
-    resource　Tutorial.Profile
+    resource Tutorial.Profile
   end
 end
 ```
