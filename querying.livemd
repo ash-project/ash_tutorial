@@ -78,7 +78,15 @@ defmodule Tutorial.Profile do
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults [:create]
+    defaults [:read, :destroy]
+
+    create :create do
+      accept [:name]
+    end
+
+    update :update do
+      accept [:name]
+    end
   end
 
   attributes do
