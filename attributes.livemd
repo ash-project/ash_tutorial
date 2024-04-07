@@ -91,6 +91,7 @@ update_timestamp :updated_at
   ```elixir
   defmodule Tutorial.Support.Ticket do
     use Ash.Resource,
+      domain: Tutorial.Support,
       data_layer: Ash.DataLayer.Ets
 
     actions do
@@ -142,6 +143,7 @@ update_timestamp :updated_at
 ```elixir
 defmodule Tutorial.Support.Ticket do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
