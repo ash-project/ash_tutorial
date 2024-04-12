@@ -6,12 +6,12 @@ Application.put_env(:ash, :validate_domain_config_inclusion?, false)
 Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
-## Querying
+## But First, Data Persistence
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
-<a class="flex ml-2" style="color: #61758a;" href="data_persistence.livemd">Data Persistence</a>
+<a class="flex ml-2" style="color: #61758a;" href="actions.livemd">Actions</a>
 </div>
 <div class="flex">
 <i class="ri-home-fill"></i>
@@ -23,7 +23,19 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 </div>
 </div>
 
-### In this tutorial you will do basic Query and CRUD operations
+<!-- livebook:{"break_markdown":true} -->
+
+So far we have just created changesets, but we have not actually created any resouces.  Before we can play around with querying, we need to add a data layer.  It is much more common to use [Postgres](https://github.com/ash-project/ash_postgres) in production, but we will use [ETS data layer](https://hexdocs.pm/ash/dsl-ash-datalayer-ets.html#ets) for the remainder of this tutorial to keep dependencies to a minimum.
+
+<!-- livebook:{"force_markdown":true} -->
+
+```elixir
+ use Ash.Resource,
+      domain: YourDomain,
+      data_layer: Ash.DataLayer.Ets
+```
+
+## In this tutorial you will do basic Query and CRUD operations
 
 But first you need to enable all basic **CRUD** operations.
 
@@ -246,7 +258,7 @@ Do this using the `Ash.destroy!/1` function.
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
-<a class="flex ml-2" style="color: #61758a;" href="data_persistence.livemd">Data Persistence</a>
+<a class="flex ml-2" style="color: #61758a;" href="actions.livemd">Actions</a>
 </div>
 <div class="flex">
 <i class="ri-home-fill"></i>
