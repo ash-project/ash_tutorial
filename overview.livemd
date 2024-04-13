@@ -24,16 +24,14 @@ Have fun!
 
 1. [Resources](resources.livemd)
 2. [Actions](actions.livemd)
-3. [Domain](domain.livemd)
-4. [Data Persistence](data_persistence.livemd)
-5. [Querying](querying.livemd)
-6. [Attributes](attributes.livemd)
-7. [Customizing Actions](customizing_actions.livemd)
-8. [Relationships](relationships.livemd)
-9. [Managing Relationships](managing_relationships.livemd)
-10. [Code Interfaces](code_interfaces.livemd)
-11. [Aggregates](aggregates.livemd)
-12. [Calculations](calculations.livemd)
+3. [Querying](querying.livemd)
+4. [Attributes](attributes.livemd)
+5. [Customizing Actions](customizing_actions.livemd)
+6. [Relationships](relationships.livemd)
+7. [Managing Relationships](managing_relationships.livemd)
+8. [Code Interfaces](code_interfaces.livemd)
+9. [Aggregates](aggregates.livemd)
+10. [Calculations](calculations.livemd)
 
 ## Contributing?
 

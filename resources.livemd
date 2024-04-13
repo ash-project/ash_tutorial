@@ -6,7 +6,7 @@ Application.put_env(:ash, :validate_domain_config_inclusion?, false)
 Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
-## Create a Profile Resource
+## What is a resource?
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
@@ -21,54 +21,33 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 
 <!-- livebook:{"break_markdown":true} -->
 
-### In this tutorial, you will create a simple Profile resource with a name attribute
+The fundamental building blocks of Ash are resources, actions, and domains.  The resource is Ash's central concept, so we need to define it well for anything else to make sense, so let's turn to the [Ash Glossary](https://hexdocs.pm/ash/3.0.0-rc.18/glossary.html#resource).
 
-First define the `Tutorial.Profile` module as a **Resource** with the `use Ash.Resource` macro.
+> The central concept in Ash, a resource is a domain model object in your system, the nouns that your app revolves around. Resources contain definitions of the data they hold in the form of attributes, but also define actions that can be taken on that data and actors that are allowed to run them.
+> 
+> It is not a strict requirement that resources contain data - they can be used purely to create a standard interface for performing tasks - but in practice, most resources will be used to manage data.
 
-You also need to configure an `Ash.Domain` module that the resource will use. You can read more about this in
-the section on domains. So you end up with `use Ash.Resource, domain: YourDomain`
+A domain simply groups together related resources.  Some things can be defined in a domain instead of a resource.  We will do this when we get to code interfaces later on.
 
-Next, add some attributes. This is done in an **attributes** block inside the module:
+## Example Code
 
-<!-- livebook:{"force_markdown":true} -->
-
-```elixir
-attributes do
-
-end
-```
-
-For your first attribute, define a primary key `uuid_primary_key :id` inside this `attributes` block.
-
-Also define a name by adding `attribute :name, :string`
-
-<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
-  <div class="p-4">
-
-  ```elixir
-  defmodule Tutorial.Profile do
-    use Ash.Resource,
-      domain: Tutorial
-
-    attributes do
-      uuid_primary_key :id
-      attribute :name, :string
-    end
-  end
-  ```
-
-  </div>
-</details>
-
-### Enter your solution
+Here we have a minimal resource called `Profile` that has, aside from its primary key, a single string attribute `name`.
 
 ```elixir
 defmodule Tutorial.Profile do
-  # <- Add your code here
+  use Ash.Resource,
+    domain: Tutorial
+
+  attributes do
+    uuid_primary_key :id
+    attribute :name, :string
+  end
 end
+```
 
+To be able to do anything with this resource, we also need a domain.
 
+```elixir
 defmodule Tutorial do
   use Ash.Domain
 
@@ -78,17 +57,15 @@ defmodule Tutorial do
 end
 ```
 
-## Changesets
-
-If everything went well, you can now create a changeset for your newly created resource.
-
-Changesets are used to **create** and **update** data in Ash. Note that without a data layer, you won't be able to persist creations and changes. This will be shown in a later tutorial.
+Now we can create a changeset for the resource.
 
 ```elixir
 Tutorial.Profile
 |> Ash.Changeset.new()
 |> Ash.Changeset.change_attributes(%{name: "John Doe"})
 ```
+
+Changesets are used to create and update data in Ash.  (**Note:** without a data layer, you won't be able to persist creations and changes.  This will be shown in a later tutorial.)
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
