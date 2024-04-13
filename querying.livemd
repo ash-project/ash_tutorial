@@ -25,7 +25,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 
 <!-- livebook:{"break_markdown":true} -->
 
-So far we have just created changesets, but we have not actually created any resouces.  Before we can play around with querying, we need to add a data layer.  It is much more common to use [Postgres](https://github.com/ash-project/ash_postgres) in production, but we will use [ETS data layer](https://hexdocs.pm/ash/dsl-ash-datalayer-ets.html#ets) for the remainder of this tutorial to keep dependencies to a minimum.
+So far we have just created changesets, but we have not actually created any instances of a resource, also known as records.  Before we can play around with querying, we need to add a data layer.  It is much more common to use [Postgres](https://github.com/ash-project/ash_postgres) in production, but we will use [ETS data layer](https://hexdocs.pm/ash/dsl-ash-datalayer-ets.html#ets) for the remainder of this tutorial to keep dependencies to a minimum.
 
 <!-- livebook:{"force_markdown":true} -->
 
