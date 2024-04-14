@@ -7,7 +7,7 @@ Application.put_env(:ash, :validate_domain_config_inclusion?, false)
 Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 ```
 
-## Create an Action
+## What is an Action?
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
@@ -19,73 +19,48 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
 <div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="domain.livemd">Domain</a>
+<a class="flex mr-2" style="color: #61758a;" href="querying.livemd">Querying</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
 
 <!-- livebook:{"break_markdown":true} -->
 
-### In this tutorial, you will create a Resource with a 'create' action
+Actions are much simpler: an action describes a <span title="Create, Read, Update, Delete">CRUD</span> operation that can be performed on a resource, but using whatever language makes the most sense for your given resource.  For example, you may have a `publish` action on a `BlogPost` resource that changes the resource to be publicly visible.  Under CRUD, this would be an `update` operation, but calling it the "publish action" more fully conveys what the operation does.
 
-First, add the action block inside the Resource.
+An action is defined on a resource in an `actions do ... end` block.
 
 <!-- livebook:{"force_markdown":true} -->
 
 ```elixir
-actions do
-
-end
-```
-
-Inside this action block you can define any type of actions you can think of, including all **CRUD** actions.
-
-For now, add a simple create action, that accepts the `:name` attribute as input.
-
-<details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
-  <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
-  <div class="p-4">
-
-  ```elixir
-  defmodule Tutorial.Profile do
-    use Ash.Resource,
-      domain: Tutorial
-
-    actions do
-      create :create do
-        accept [:name]
-      end
-    end
-
-    attributes do
-      uuid_primary_key :id
-      attribute :name, :string
+  actions do
+    create :create do
+      accept [:name]
     end
   end
-  ```
+```
 
-  </div>
-</details>
+<!-- livebook:{"break_markdown":true} -->
 
-### Enter your solution
+Adding that to our `Resource` module from earlier,
 
 ```elixir
 defmodule Tutorial.Profile do
   use Ash.Resource,
     domain: Tutorial
 
-  # <--- Create your action here
-
   attributes do
     uuid_primary_key :id
     attribute :name, :string
   end
+
+  actions do
+    create :create do
+      accept [:name]
+    end
+  end
 end
-```
 
-### Add the Resource to the Domain
-
-```elixir
 defmodule Tutorial do
   use Ash.Domain
 
@@ -95,20 +70,12 @@ defmodule Tutorial do
 end
 ```
 
-### Changeset
-
-<!-- livebook:{"break_markdown":true} -->
-
-If everything is configured correctly, you can now call `for_create/3` to create a changeset.
+We can now use `for_create/3` to create a changeset.
 
 ```elixir
 Tutorial.Profile
 |> Ash.Changeset.for_create(:create, %{name: "My Name"})
 ```
-
-To learn more about actions, read the [section on Actions in the documentation](https://hexdocs.pm/ash/actions.html)
-
-<!-- livebook:{"break_markdown":true} -->
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
@@ -120,7 +87,7 @@ To learn more about actions, read the [section on Actions in the documentation](
 <a class="flex ml-2" style="color: #61758a;" href="./overview.livemd">Home</a>
 </div>
 <div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="./domain.livemd">Domain</a>
+<a class="flex mr-2" style="color: #61758a;" href="./querying.livemd">Querying</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
