@@ -1,4 +1,4 @@
-# Ash: 5 - Querying
+# Ash: 3 - Querying
 
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
