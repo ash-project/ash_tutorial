@@ -116,11 +116,15 @@ defmodule Tutorial.Support.Representative do
   use Ash.Resource,
     data_layer: Ash.DataLayer.Ets
 
-  actions(do: defaults([:create, :read, :update, :destroy]))
+  actions do
+    defaults [:read]
+
+    create :create, accept: [:name]
+  end
 
   attributes do
-    uuid_primary_key(:id)
-    attribute(:name, :string)
+    uuid_primary_key :id
+    attribute :name, :string
   end
 end
 ```
