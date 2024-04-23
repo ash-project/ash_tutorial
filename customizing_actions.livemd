@@ -164,7 +164,7 @@ end
 
 Open a ticket.
 
-Remember, when creating a resource, use a changeset (`Ash.Changeset.for_create/3`), which gets passed to `Tutorial.Support.create!/1`. But in this case use the `:open` argument instead of `:create`.
+Remember, when creating a resource, use a changeset (`Ash.Changeset.for_create/3`), which gets passed to `Ash.create!/1`. But in this case use the `:open` argument instead of `:create`.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
@@ -238,7 +238,7 @@ Close the `ticket` you created in the previous section.
 
 Remember to use `Ash.Changeset.for_update/2` with the `:close` action.
 
-To update use `Tutorial.Support.update!/1`.
+To update use `Ash.update!/1`.
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>

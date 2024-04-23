@@ -38,11 +38,15 @@ You will add 3 code interfaces for:
 For each resource you want to add a code interface to, inside that resource definition on the domain, you will place "definitions".
 For example:
 
+<!-- livebook:{"force_markdown":true} -->
+
 ```elixir
 resource MyApp.Tweet do
   define :create_tweet, args: [:content]
 end
 ```
+
+<!-- livebook:{"break_markdown":true} -->
 
 Then add the 3 interfaces by defining the following inside the `Ticket` resource's block:
 
@@ -51,7 +55,7 @@ Then add the 3 interfaces by defining the following inside the `Ticket` resource
 
 And the following inside the `Representative` resource's block.
 
-* `define :create_ticket, args: [:name], action: :create`
+* `define :create_representative, args: [:name], action: :create`
 
 <details class="rounded-lg my-4" style="background-color: #96ef86; color: #040604;">
   <summary class="cursor-pointer font-bold p-4"></i>Show Solution</summary>
