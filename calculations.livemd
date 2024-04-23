@@ -68,9 +68,7 @@ defmodule Tutorial.Accounts.User do
     attribute(:last_name, :string, allow_nil?: false)
   end
 
-  calculations do
-    calculate(:full_name, :string, expr(first_name <> " " <> last_name))
-  end
+  # <--- Add the calculations here
 end
 ```
 
