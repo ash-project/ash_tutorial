@@ -114,10 +114,11 @@ end
 
 defmodule Tutorial.Support.Representative do
   use Ash.Resource,
+    domain: Tutorial.Support,
     data_layer: Ash.DataLayer.Ets
 
   actions do
-    defaults [:read]
+    defaults [:read, :update, :destroy]
 
     create :create, accept: [:name]
   end
