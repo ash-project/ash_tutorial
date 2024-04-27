@@ -83,9 +83,7 @@ defmodule Tutorial.Support.Ticket do
     end
 
     update :assign do
-      accept []
-      argument :representative_id, :uuid, allow_nil?: false
-      change manage_relationship(:representative_id, :representative, type: :append_and_remove)
+      accept [:representative_id]
     end
   end
 

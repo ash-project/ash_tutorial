@@ -11,7 +11,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
-<a class="flex ml-2" style="color: #61758a;" href="managing_relationships.livemd">Managing Relationships</a>
+<a class="flex ml-2" style="color: #61758a;" href="relationships.livemd">Relationships</a>
 </div>
 <div class="flex">
 <i class="ri-home-fill"></i>
@@ -95,8 +95,7 @@ defmodule Tutorial.Support.Ticket do
     end
 
     update :assign do
-      argument :representative_id, :uuid, allow_nil?: false
-      change manage_relationship(:representative_id, :representative, type: :append_and_remove)
+      accept [:representative_id]
     end
   end
 
@@ -218,7 +217,7 @@ Use `Tutorial.Support.assign_ticket!/2`.
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
 <div class="flex">
 <i class="ri-arrow-left-fill"></i>
-<a class="flex ml-2" style="color: #61758a;" href="managing_relationships.livemd">Managing Relationships</a>
+<a class="flex ml-2" style="color: #61758a;" href="relationships.livemd">Managing Relationships</a>
 </div>
 <div class="flex">
 <i class="ri-home-fill"></i>

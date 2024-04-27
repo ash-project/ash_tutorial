@@ -18,7 +18,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
 <div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="managing_relationships.livemd">Managing Relationships</a>
+<a class="flex mr-2" style="color: #61758a;" href="code_interfaces.livemd">Code Interfaces</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>
@@ -157,7 +157,7 @@ and try again you should now see that the representative was correctly assigned.
 <a class="flex ml-2" style="color: #61758a;" href="overview.livemd">Home</a>
 </div>
 <div class="flex">
-<a class="flex mr-2" style="color: #61758a;" href="managing_relationships.livemd">Managing Relationships</a>
+<a class="flex mr-2" style="color: #61758a;" href="code_interfaces.livemd">Code Interfaces</a>
 <i class="ri-arrow-right-fill"></i>
 </div>
 </div>

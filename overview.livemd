@@ -28,10 +28,9 @@ Have fun!
 4. [Attributes](attributes.livemd)
 5. [Customizing Actions](customizing_actions.livemd)
 6. [Relationships](relationships.livemd)
-7. [Managing Relationships](managing_relationships.livemd)
-8. [Code Interfaces](code_interfaces.livemd)
-9. [Aggregates](aggregates.livemd)
-10. [Calculations](calculations.livemd)
+7. [Code Interfaces](code_interfaces.livemd)
+8. [Aggregates](aggregates.livemd)
+9. [Calculations](calculations.livemd)
 
 ## Contributing?
 
