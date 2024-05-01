@@ -89,7 +89,7 @@ Create a User and load in the `full_name`
 ```elixir
 Tutorial.Accounts.User
 |> Ash.Changeset.for_create(:create, %{first_name: "Joe", last_name: "Armstrong"})
-|> Tutorial.Accounts.create!()
+|> Ash.create!()
 |> Ash.load!([:full_name])
 ```
 

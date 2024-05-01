@@ -283,7 +283,7 @@ Finally call `Ash.read_one!()` on the query.
   Tutorial.Support.Ticket
   |> Ash.Query.sort(created_at: :desc)
   |> Ash.Query.limit(1)
-  |> Tutorial.Support.read_one!()
+  |> Ash.read_one!()
   ```
 
   </div>
