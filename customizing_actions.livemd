@@ -76,6 +76,8 @@ That's it, you defined your first custom actions.
       data_layer: Ash.DataLayer.Ets
 
     actions do
+      defaults [:read]
+
       create :open do
         # By default you can provide all public attributes to an action
         # This action should only accept the subject
@@ -131,6 +133,8 @@ defmodule Tutorial.Support.Ticket do
     data_layer: Ash.DataLayer.Ets
 
   actions do
+    defaults [:read]
+    
     # <-- Add the :open and :close action
   end
 
