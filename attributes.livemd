@@ -267,7 +267,7 @@ Now try creating a ticket with the status set to `:pending`. This should give an
 
 Since you added a creation date, you can now query on the latest created ticket.
 
-First, sort using the `Ash.Query.sort/1` function by `Ash.Query.sort(created_at: :desc)`
+First, sort using the `Ash.Query.sort/2` function by `Ash.Query.sort(created_at: :desc)`
 
 Then limit the amount of records with the `Ash.Query.limit/2` function by doing `Ash.Query.limit(1)`
 
