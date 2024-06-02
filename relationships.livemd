@@ -3,7 +3,7 @@
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
 Application.put_env(:ash, :validate_domain_config_inclusion?, false)
-Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
+Mix.install([{:ash, "~> 3.0"}], consolidate_protocols: false)
 ```
 
 ## Relationships

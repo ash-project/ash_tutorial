@@ -3,7 +3,7 @@
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
 Application.put_env(:ash, :validate_domain_config_inclusion?, false)
-Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
+Mix.install([{:ash, "~> 3.0"}], consolidate_protocols: false)
 ```
 
 ## What is a resource?
@@ -21,7 +21,7 @@ Mix.install([{:ash, "~> 3.0.0-rc"}], consolidate_protocols: false)
 
 <!-- livebook:{"break_markdown":true} -->
 
-The fundamental building blocks of Ash are resources, actions, and domains.  The resource is Ash's central concept, so we need to define it well for anything else to make sense, so let's turn to the [Ash Glossary](https://hexdocs.pm/ash/3.0.0-rc.18/glossary.html#resource).
+The fundamental building blocks of Ash are resources, actions, and domains.  The resource is Ash's central concept, so we need to define it well for anything else to make sense, so let's turn to the [Ash Glossary](https://hexdocs.pm/ash/glossary.html#resource).
 
 > The central concept in Ash, a resource is a domain model object in your system, the nouns that your app revolves around. Resources contain definitions of the data they hold in the form of attributes, but also define actions that can be taken on that data and actors that are allowed to run them.
 > 
