@@ -1,4 +1,4 @@
-# Ash: 12 - Calculations
+# Ash: 9 - Calculations
 
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)

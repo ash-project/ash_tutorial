@@ -1,4 +1,4 @@
-# Ash: 8 - Relationships
+# Ash: 6 - Relationships
 
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)

@@ -1,4 +1,4 @@
-# Ash: 6 - Attributes
+# Ash: 4 - Attributes
 
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
