@@ -1,4 +1,4 @@
-# Ash: 7 - Customizing Actions
+# Ash: 5 - Customizing Actions
 
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
@@ -134,7 +134,7 @@ defmodule Tutorial.Support.Ticket do
 
   actions do
     defaults [:read]
-    
+
     # <-- Add the :open and :close action
   end
 
