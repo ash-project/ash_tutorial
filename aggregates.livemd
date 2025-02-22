@@ -159,7 +159,7 @@ end
 
 ## Query the Aggregate
 
-Use a [Bulk Action](https://hexdocs.pm/ash/bulk-actions.html) to create 4 tickets, 3 of which are assigned to Joe.
+Use a [Bulk Create](https://hexdocs.pm/ash/create-actions.html#bulk-creates) to create 4 tickets, 3 of which are assigned to Joe.
 
 ```elixir
 # Create a representative
