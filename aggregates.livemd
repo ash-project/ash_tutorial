@@ -29,14 +29,7 @@ Mix.install([{:ash, "~> 3.0"}], consolidate_protocols: false)
 
 Implement a count aggregate on the 'open tickets' a representative is assigned to.
 
-First explore the comments in the code below, to make this work properly you have to:
-
-* Set the representative belongs_to relationship to writable
-* Add the representative_id to the open action
-* Add the representative_id to the code interface
-* Add the inverse relationship of belongs_to inside the Representative resource
-
-Only the latter is really required for aggregates to work, the first 3 allow you to be a bit more concise when creating new tickets.
+First explore the comments in the code below, to make this work properly you have to add the inverse relationship of belongs_to inside the Representative resource.
 
 To add an aggregate define an `aggregates do .. end` block inside the representative.
 
