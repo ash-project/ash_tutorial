@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 Wout De Puysseleir
+
+SPDX-License-Identifier: MIT
+-->
+
 # Ash: 7 - Code Interfaces
 
 ```elixir

@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2023 Wout De Puysseleir
+
+SPDX-License-Identifier: MIT
+-->
+[![REUSE status](https://api.reuse.software/badge/github.com/ash-project/ash_tutorial)](https://api.reuse.software/info/github.com/ash-project/ash_tutorial)
+
 # Get Started
 
 To get started you need a running instance of [Livebook](https://livebook.dev/)
