@@ -1,8 +1,9 @@
 <!--
-SPDX-FileCopyrightText: 2023 Wout De Puysseleir
+SPDX-FileCopyrightText: 2023 ash_tutorial contributors <https://github.com/ash-project/ash_tutorial/graphs.contributors>
 
 SPDX-License-Identifier: MIT
 -->
+
 [![REUSE status](https://api.reuse.software/badge/github.com/ash-project/ash_tutorial)](https://api.reuse.software/info/github.com/ash-project/ash_tutorial)
 
 # Get Started
