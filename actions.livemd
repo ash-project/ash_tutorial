@@ -80,8 +80,7 @@ end
 We can now use `for_create/3` to create a changeset.
 
 ```elixir
-Tutorial.Profile
-|> Ash.Changeset.for_create(:create, %{name: "My Name"})
+Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "My Name"})
 ```
 
 <div class="flex items-center w-full flex-start justify-between rounded-xl p-4" style="background-color: #f0f5f9; color: #61758a;">
