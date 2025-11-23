@@ -22,7 +22,7 @@ The best way to follow the tutorial is reading the instructions in the tutorial,
 
 The goal of this tutorial is to get you familiar with the basic concepts of Ash, and give you a good sense of what's possible. It serves as a primer for the [Ash documentation](https://hexdocs.pm/ash/get-started.html). Feel free to consult this documentation alongside the tutorial to learn more. That being said, the documenation shouldn't be necessary to complete the tutorial.
 
-Have fun!
+Have fun!!
 
 <!-- livebook:{"break_markdown":true} -->
 
