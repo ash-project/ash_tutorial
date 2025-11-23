@@ -124,7 +124,7 @@ Add 2 Profiles to the database.
 
 You can create a `Profile` by:
 
-* Creating a Changeset with `Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})`,
+* Creating a Changeset with `Ash.Changeset.for_create(:create, %{name: "Your Name"})`,
 * Then giving the changeset to `Ash.create!()`.
 
 *Hint: Use a pipeline*
@@ -134,11 +134,19 @@ You can create a `Profile` by:
   <div class="p-4">
 
   ```elixir
-Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Joe Armstrong"})
+Tutorial.Profile
+|> Ash.Changeset.for_create(:create, %{name: "Joe Armstrong"})
 |> Ash.create!()
+
+Tutorial.Profile
+|> Ash.Changeset.for_create(:create, %{name: "Your Name"})
+|> Ash.create!()
+
+# Tip: the following also works
 
 Ash.Changeset.for_create(Tutorial.Profile, :create, %{name: "Your Name"})
 |> Ash.create!()
+
   ```
 
   </div>
