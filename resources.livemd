@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: 2023 Wout De Puysseleir
-SPDX-FileCopyrightText: 2023 ash_tutorial contributors <https://github.com/ash-project/ash_tutorial/graphs.contributors>
+SPDX-FileCopyrightText: 2023 ash_tutorial contributors <https://github.com/ash-project/ash_tutorial/graphs/contributors>
 
 SPDX-License-Identifier: MIT
 -->
@@ -31,7 +31,7 @@ Mix.install([{:ash, "~> 3.0"}], consolidate_protocols: false)
 The fundamental building blocks of Ash are resources, actions, and domains.  The resource is Ash's central concept, so we need to define it well for anything else to make sense, so let's turn to the [Ash Glossary](https://hexdocs.pm/ash/glossary.html#resource).
 
 > The central concept in Ash, a resource is a domain model object in your system, the nouns that your app revolves around. Resources contain definitions of the data they hold in the form of attributes, but also define actions that can be taken on that data and actors that are allowed to run them.
-> 
+>
 > It is not a strict requirement that resources contain data - they can be used purely to create a standard interface for performing tasks - but in practice, most resources will be used to manage data.
 
 A domain simply groups together related resources.  Some things can be defined in a domain instead of a resource.  We will do this when we get to code interfaces later on.
