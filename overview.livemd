@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2023 ash_tutorial contributors <https://github.com/ash-project/ash_tutorial/graphs.contributors>
+SPDX-FileCopyrightText: 2023 ash_tutorial contributors <https://github.com/ash-project/ash_tutorial/graphs/contributors>
 
 SPDX-License-Identifier: MIT
 -->
