@@ -10,6 +10,7 @@ SPDX-License-Identifier: MIT
 ```elixir
 Application.put_env(:ash, :validate_domain_resource_inclusion?, false)
 Application.put_env(:ash, :validate_domain_config_inclusion?, false)
+Application.put_env(:ash, :default_string_length_count, :codepoints)
 
 Mix.install([{:ash, "~> 3.0"}], consolidate_protocols: false)
 ```
